@@ -1,60 +1,69 @@
----
 name: CI
-
 on:
+  pull_request:
+    branches:
+      - main
   push:
     branches:
       - main
-    paths:
-      - "src/config.yaml"
-      - "src/templates/**"
-      - "src/sync-config.sh"
-      - ".github/workflows/ci.yaml"
-  workflow_dispatch:
-
-concurrency:
-  group: config-sync
-  cancel-in-progress: false
-
 permissions:
-  contents: read
-
+  contents: write
+  pull-requests: write
 jobs:
-  sync-config:
-    name: Sync Configuration
+  lint:
+    name: Lint
     runs-on: ubuntu-latest
+    if: |
+      github.actor != 'renovate[bot]' &&
+      github.actor != 'dependabot[bot]' &&
+      !startsWith(github.head_ref || '', 'renovate/') &&
+      !startsWith(github.head_ref || '', 'dependabot/')
+    concurrency:
+      group: ${{ github.workflow }}-lint-${{ github.ref }}
+      cancel-in-progress: true
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/checkout@0c366fd6a839edf440554fa01a7085ccba70ac98
         with:
-          node-version: "20"
-
-      - name: Import GPG key
-        id: import-gpg
-        uses: crazy-max/ghaction-import-gpg@v6
-        with:
-          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
-          passphrase: ${{ secrets.GPG_PASSPHRASE }}
-          git_config_global: true
-          git_user_signingkey: true
-          git_commit_gpgsign: true
-          git_tag_gpgsign: true
-
-      - name: Configure git identity and credentials
+          fetch-depth: 0
+      - name: Run MegaLinter
         env:
-          GH_TOKEN: ${{ secrets.CONFIG_SYNC_PAT }}
+          MEGALINTER_IMAGE: ghcr.io/anthony-spruyt/megalinter-container-images@sha256:575587d9caf54235888e3749734aec1ef094bdbd876dd0e0c88f443114a415ee
+          MEGALINTER_FLAVOR: all
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VALIDATE_ALL_CODEBASE: ${{ github.event_name == 'workflow_dispatch' && 'true' || 'false' }}
         run: |
-          git config --global user.name "${{ steps.import-gpg.outputs.name }}"
-          git config --global user.email "${{ steps.import-gpg.outputs.email }}"
-          # Configure gh CLI to set up git credential helper
-          gh auth setup-git
-
-      - name: Run config sync
+          docker run \
+            -e MEGALINTER_FLAVOR \
+            -e GITHUB_TOKEN \
+            -e VALIDATE_ALL_CODEBASE \
+            -e DEFAULT_WORKSPACE=/tmp/lint \
+            -e GITHUB_REPOSITORY="${{ github.repository }}" \
+            -e GITHUB_SHA="${{ github.sha }}" \
+            -e GITHUB_REF="${{ github.ref }}" \
+            -e GITHUB_RUN_ID="${{ github.run_id }}" \
+            -v "${{ github.workspace }}:/tmp/lint:rw" \
+            --rm \
+            "$MEGALINTER_IMAGE"
+  summary:
+    name: CI
+    runs-on: ubuntu-latest
+    needs:
+      - lint
+    if: always()
+    steps:
+      - name: Check results
         env:
-          GH_TOKEN: ${{ secrets.CONFIG_SYNC_PAT }}
+          LINT_RESULT: ${{ needs.lint.result }}
         run: |
-          chmod +x ./src/sync-config.sh
-          ./src/sync-config.sh
+          echo "Lint result: $LINT_RESULT"
+
+          # Check for any failures first
+          if [ "$LINT_RESULT" = "failure" ]; then
+            echo "Lint failed"
+            exit 1
+          fi
+
+          # All relevant jobs succeeded or were skipped appropriately
+          echo "All checks passed"
+          exit 0
