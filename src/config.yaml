@@ -55,6 +55,8 @@ files:
   .vscode/settings.json:
     createOnly: true
     content: "@templates/.vscode/settings.json"
+  .editorconfig:
+    content: "@templates/.editorconfig"
   .gitignore:
     createOnly: true
     content: "@templates/.gitignore"
