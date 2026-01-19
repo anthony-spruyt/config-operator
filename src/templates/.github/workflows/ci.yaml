@@ -17,11 +17,10 @@ jobs:
   lint:
     name: Lint
     runs-on: ubuntu-latest
+    # Skip for renovate/dependabot bot commits
     if: |
       github.actor != 'renovate[bot]' &&
-      github.actor != 'dependabot[bot]' &&
-      !startsWith(github.head_ref || '', 'renovate/') &&
-      !startsWith(github.head_ref || '', 'dependabot/')
+      github.actor != 'dependabot[bot]'
     concurrency:
       group: $${{ github.workflow }}-lint-$${{ github.ref }}
       cancel-in-progress: true

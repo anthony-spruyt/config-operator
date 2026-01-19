@@ -16,10 +16,10 @@ if [ ! -f "config.yaml" ]; then
   exit 1
 fi
 
-echo "Installing json-config-sync..."
-npm install -g @aspruyt/json-config-sync
+echo "Installing xfg..."
+npm install -g @aspruyt/xfg
 
 echo "Running config sync..."
-json-config-sync --config ./config.yaml --work-dir /tmp/json-config-sync
+xfg --config ./config.yaml --work-dir /tmp/xfg
 
 echo "Config sync completed"

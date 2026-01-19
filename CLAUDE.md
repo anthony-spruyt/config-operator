@@ -8,7 +8,7 @@ This repository is a **GitHub Repository Operator** - a registry and orchestrato
 
 ### Related Projects
 
-- **[json-config-sync](https://github.com/anthony-spruyt/json-config-sync)**: The underlying tool used to sync configuration files to target repositories
+- **[xfg](https://github.com/anthony-spruyt/xfg)**: The underlying tool used to sync configuration files to target repositories
 - **[claude-config](https://github.com/anthony-spruyt/claude-config)**: Repository containing shared Claude configuration (`.claude/` directory contents)
 
 ### Goals
