@@ -103,7 +103,7 @@ jobs:
   summary:
     name: CI
     runs-on: ubuntu-latest
-    needs: [lint]
+    needs: [lint, sync-config]
     if: always()
     steps:
       - name: Check results
