@@ -3,3 +3,7 @@ tabWidth: 2
 semi: false
 singleQuote: false
 proseWrap: "preserve"
+overrides:
+  - files: "*.json"
+    options:
+      printWidth: 1

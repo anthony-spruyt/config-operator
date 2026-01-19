@@ -6,9 +6,6 @@ updates:
       interval: "daily"
       time: "06:00"
       timezone: "Australia/Melbourne"
-    labels:
-      - "dependencies"
-      - "automated"
     open-pull-requests-limit: 10
   - package-ecosystem: "npm"
     directory: "/.devcontainer"
@@ -16,10 +13,6 @@ updates:
       interval: "daily"
       time: "06:00"
       timezone: "Australia/Melbourne"
-    labels:
-      - "dependencies"
-      - "automated"
-      - "npm"
     open-pull-requests-limit: 10
     groups:
       npm-all:
@@ -31,10 +24,6 @@ updates:
       interval: "daily"
       time: "06:00"
       timezone: "Australia/Melbourne"
-    labels:
-      - "dependencies"
-      - "automated"
-      - "github-actions"
     open-pull-requests-limit: 10
     groups:
       actions:
