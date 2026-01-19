@@ -31,6 +31,7 @@ files:
   .github/rulesets/push-protection.json:
     content: "@templates/.github/rulesets/push-protection.json"
   .github/workflows/ci.yaml:
+    createOnly: true
     content: "@templates/.github/workflows/ci.yaml"
   .github/workflows/dependabot-automerge.yaml:
     content: "@templates/.github/workflows/dependabot-automerge.yaml"
