@@ -1,0 +1,40 @@
+---
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "src/config.yaml"
+      - "src/templates/**"
+      - "src/sync-config.sh"
+      - ".github/workflows/ci.yaml"
+  workflow_dispatch:
+
+concurrency:
+  group: config-sync
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  sync-config:
+    name: Sync Configuration
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Run config sync
+        env:
+          GH_TOKEN: ${{ secrets.CONFIG_SYNC_PAT }}
+        run: |
+          chmod +x ./src/sync-config.sh
+          ./src/sync-config.sh

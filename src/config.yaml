@@ -1,0 +1,91 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/anthony-spruyt/json-config-sync/main/config-schema.json
+repos:
+  #- git: git@github.com:anthony-spruyt/bai2csv.git
+  #- git: git@github.com:anthony-spruyt/claude-config.git
+  - git: git@github.com:anthony-spruyt/repo-operator.git
+  #- git: git@github.com:anthony-spruyt/container-images.git
+  #- git: git@github.com:anthony-spruyt/firemerge.git
+  #- git: git@github.com:anthony-spruyt/gastown-dev.git
+  #- git: git@github.com:anthony-spruyt/json-config-sync.git
+  #- git: git@github.com:anthony-spruyt/spruyt-labs.git
+  #- git: git@github.com:anthony-spruyt/SunGather.git
+
+prOptions:
+  merge: manual
+
+files:
+  .devcontainer/devcontainer.json:
+    createOnly: true
+    content: "@templates/.devcontainer/devcontainer.json"
+  .devcontainer/package.json:
+    createOnly: true
+    content: "@templates/.devcontainer/package.json"
+  .devcontainer/post-create.sh:
+    createOnly: true
+    content: "@templates/.devcontainer/post-create.sh"
+  .devcontainer/verify-setup.sh:
+    createOnly: true
+    content: "@templates/.devcontainer/verify-setup.sh"
+  .github/rulesets/pr-rules.json:
+    content: "@templates/.github/rulesets/pr-rules.json"
+  .github/rulesets/push-protection.json:
+    content: "@templates/.github/rulesets/push-protection.json"
+  .github/workflows/ci.yaml:
+    content: "@templates/.github/workflows/ci.yaml"
+  .github/workflows/dependabot-automerge.yaml:
+    content: "@templates/.github/workflows/dependabot-automerge.yaml"
+  .github/renovate.json5:
+    createOnly: true
+    content: "@templates/.github/renovate.json5"
+  .github/apply-rulesets.sh:
+    content: "@templates/.github/apply-rulesets.sh"
+  .github/actionlint.yaml:
+    createOnly: true
+    header:
+      - actionlint configuration
+      - https://github.com/rhysd/actionlint/blob/main/docs/config.md
+    content: "@templates/.github/actionlint.yaml"
+  .github/dependabot.yml:
+    createOnly: true
+    content: "@templates/.github/dependabot.yml"
+  .vscode/settings.json:
+    createOnly: true
+    content: "@templates/.vscode/settings.json"
+  .gitignore:
+    createOnly: true
+    content: "@templates/.gitignore"
+  .lycheeignore:
+    createOnly: true
+  .markdownlint.json:
+    content: "@templates/.markdownlint.json"
+  .markdownlintignore:
+    createOnly: true
+    content: "@templates/.markdownlintignore"
+  .mega-linter.yml:
+    createOnly: true
+    content: "@templates/.mega-linter.yml"
+  .pre-commit-config.yaml:
+    createOnly: true
+    content: "@templates/.pre-commit-config.yaml"
+  .prettierignore:
+    createOnly: true
+  .prettierrc.yaml:
+    content: "@templates/.prettierrc.yaml"
+  .shellcheckrc:
+    createOnly: true
+  .trivyignore.yaml:
+    createOnly: true
+    header:
+      - Path-specific trivy ignores
+      - https://trivy.dev/latest/docs/configuration/filtering
+    content: "@templates/.trivyignore.yaml"
+  .yamllint.yml:
+    header: https://yamllint.readthedocs.io/en/latest/configuration.html
+    content: "@templates/.yamllint.yml"
+  LICENSE:
+    createOnly: true
+    content: "@templates/LICENSE"
+  trivy.yaml:
+    createOnly: true
+    header: https://trivy.dev/latest/docs/references/configuration/config-file/
+    content: "@templates/trivy.yaml"

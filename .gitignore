@@ -1,0 +1,12 @@
+.output
+node_modules/
+
+# Prevent accidental secret commits
+.env
+.env.*
+*.env
+.secrets/
+
+# Python
+__pycache__/
+*.py[cod]
