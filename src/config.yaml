@@ -1,14 +1,14 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/anthony-spruyt/json-config-sync/main/config-schema.json
 repos:
-  #- git: git@github.com:anthony-spruyt/bai2csv.git
-  #- git: git@github.com:anthony-spruyt/claude-config.git
-  - git: git@github.com:anthony-spruyt/repo-operator.git
-  #- git: git@github.com:anthony-spruyt/container-images.git
-  #- git: git@github.com:anthony-spruyt/firemerge.git
-  #- git: git@github.com:anthony-spruyt/gastown-dev.git
-  #- git: git@github.com:anthony-spruyt/json-config-sync.git
-  #- git: git@github.com:anthony-spruyt/spruyt-labs.git
-  #- git: git@github.com:anthony-spruyt/SunGather.git
+  #- git: https://github.com/anthony-spruyt/bai2csv.git
+  #- git: https://github.com/anthony-spruyt/claude-config.git
+  - git: https://github.com/anthony-spruyt/repo-operator.git
+  #- git: https://github.com/anthony-spruyt/container-images.git
+  #- git: https://github.com/anthony-spruyt/firemerge.git
+  #- git: https://github.com/anthony-spruyt/gastown-dev.git
+  #- git: https://github.com/anthony-spruyt/json-config-sync.git
+  #- git: https://github.com/anthony-spruyt/spruyt-labs.git
+  #- git: https://github.com/anthony-spruyt/SunGather.git
 
 prOptions:
   merge: manual
