@@ -23,7 +23,7 @@ jobs:
       !startsWith(github.head_ref || '', 'renovate/') &&
       !startsWith(github.head_ref || '', 'dependabot/')
     concurrency:
-      group: $${{ github.workflow }}-lint-${{ github.ref }}
+      group: $${{ github.workflow }}-lint-$${{ github.ref }}
       cancel-in-progress: true
     steps:
       - name: Checkout
@@ -38,19 +38,19 @@ jobs:
           MEGALINTER_IMAGE: "ghcr.io/anthony-spruyt/megalinter-container-images@sha256:575587d9caf54235888e3749734aec1ef094bdbd876dd0e0c88f443114a415ee"
           # MEGALINTER_FLAVOR=all bypasses flavor validation (custom flavors aren't recognized)
           MEGALINTER_FLAVOR: "all"
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          VALIDATE_ALL_CODEBASE: ${{ github.event_name == 'workflow_dispatch' && 'true' || 'false' }}
+          GITHUB_TOKEN: $${{ secrets.GITHUB_TOKEN }}
+          VALIDATE_ALL_CODEBASE: $${{ github.event_name == 'workflow_dispatch' && 'true' || 'false' }}
         run: |
           docker run \
             -e MEGALINTER_FLAVOR \
             -e GITHUB_TOKEN \
             -e VALIDATE_ALL_CODEBASE \
             -e DEFAULT_WORKSPACE=/tmp/lint \
-            -e GITHUB_REPOSITORY="${{ github.repository }}" \
-            -e GITHUB_SHA="${{ github.sha }}" \
-            -e GITHUB_REF="${{ github.ref }}" \
-            -e GITHUB_RUN_ID="${{ github.run_id }}" \
-            -v "${{ github.workspace }}:/tmp/lint:rw" \
+            -e GITHUB_REPOSITORY="$${{ github.repository }}" \
+            -e GITHUB_SHA="$${{ github.sha }}" \
+            -e GITHUB_REF="$${{ github.ref }}" \
+            -e GITHUB_RUN_ID="$${{ github.run_id }}" \
+            -v "$${{ github.workspace }}:/tmp/lint:rw" \
             --rm \
             "$MEGALINTER_IMAGE"
 
