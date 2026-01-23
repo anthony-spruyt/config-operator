@@ -10,3 +10,5 @@ node_modules/
 # Python
 __pycache__/
 *.py[cod]
+
+.claude/settings.local.json

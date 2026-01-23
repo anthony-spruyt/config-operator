@@ -30,7 +30,7 @@ This repository is a **GitHub Repository Operator** - a registry and orchestrato
 ./lint.sh
 
 # Run config sync manually (requires GH_TOKEN environment variable)
-GH_TOKEN=<your-token> ./src/sync-config.sh
+GH_TOKEN=<your-token> npx @aspruyt/xfg --config ./src/config.yaml
 ```
 
 Pre-commit hooks run automatically and include: yamllint, gitleaks, prettier, trailing-whitespace fixes.
@@ -58,7 +58,7 @@ Contains all template files that get distributed: devcontainer setup, GitHub wor
 The GitHub Actions workflow (`.github/workflows/ci.yaml`) runs:
 
 1. **lint** - MegaLinter validation (skipped for renovate/dependabot commits)
-2. **sync-config** - Runs xfg to sync templates to target repos (on push/dispatch only)
+2. **sync-config** - Uses the [xfg GitHub Action](https://github.com/anthony-spruyt/xfg) to sync templates to target repos (on push/dispatch only)
 3. **summary** - Aggregates results for branch protection
 
 The sync-config job creates PRs in target repositories with the updated configuration files.

@@ -67,11 +67,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v6
-        with:
-          node-version: "24"
-
       - name: Import GPG key
         id: import-gpg
         uses: crazy-max/ghaction-import-gpg@v6
@@ -83,21 +78,16 @@ jobs:
           git_commit_gpgsign: true
           git_tag_gpgsign: true
 
-      - name: Configure git identity and credentials
-        env:
-          GH_TOKEN: ${{ secrets.CONFIG_SYNC_PAT }}
+      - name: Configure git identity
         run: |
           git config --global user.name "${{ steps.import-gpg.outputs.name }}"
           git config --global user.email "${{ steps.import-gpg.outputs.email }}"
-          # Configure gh CLI to set up git credential helper
-          gh auth setup-git
 
-      - name: Run config sync
-        env:
-          GH_TOKEN: ${{ secrets.CONFIG_SYNC_PAT }}
-        run: |
-          chmod +x ./src/sync-config.sh
-          ./src/sync-config.sh
+      - name: Sync config
+        uses: anthony-spruyt/xfg@v1
+        with:
+          config: ./src/config.yaml
+          github-token: ${{ secrets.CONFIG_SYNC_PAT }}
 
   # Summary job provides stable status check name for branch protection
   summary:

@@ -1,11 +1,11 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/anthony-spruyt/xfg/main/config-schema.json
 repos:
-  #- git: https://github.com/anthony-spruyt/bai2csv.git
-  #- git: https://github.com/anthony-spruyt/claude-config.git
   - git: https://github.com/anthony-spruyt/repo-operator.git
     files:
       .github/workflows/dependabot-automerge.yaml: false
       .github/dependabot.yml: false
+  #- git: https://github.com/anthony-spruyt/bai2csv.git
+  #- git: https://github.com/anthony-spruyt/claude-config.git
   #- git: https://github.com/anthony-spruyt/container-images.git
   #- git: https://github.com/anthony-spruyt/firemerge.git
   #- git: https://github.com/anthony-spruyt/gastown-dev.git
@@ -14,7 +14,7 @@ repos:
   #- git: https://github.com/anthony-spruyt/SunGather.git
 
 prOptions:
-  merge: auto
+  merge: manual
 
 files:
   .devcontainer/devcontainer.json:
