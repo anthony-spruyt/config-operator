@@ -62,6 +62,13 @@ else
   fail "SSH agent not available or no keys loaded"
 fi
 
+# 6. Claude Code CLI available
+if command -v claude &>/dev/null; then
+  pass "Claude Code CLI is installed"
+else
+  fail "Claude Code CLI is not installed"
+fi
+
 echo ""
 echo "Results: $PASSED passed, $FAILED failed"
 

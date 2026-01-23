@@ -5,7 +5,7 @@ set -euo pipefail
 find . -type f -name '*.sh' -exec chmod +x {} +
 
 # Change to script directory for package.json access
-SCRIPT_DIR="$(cd "$(dirname "$${BASH_SOURCE[0]}")" && pwd)"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$SCRIPT_DIR"
 
 # Install and setup safe-chain FIRST before any other npm installs
@@ -20,11 +20,11 @@ safe-chain setup-ci # Executable shims for scripts/CI
 # This ensures pre-commit and other tools use protected pip/npm
 export PATH="$HOME/.safe-chain/shims:$PATH"
 
-echo "Installing remaining npm tools (now protected by safe-chain)..."
-npm install -g "@anthropic-ai/claude-code@$(node -p "require('./package.json').dependencies['@anthropic-ai/claude-code']")" --safe-chain-skip-minimum-package-age
-
 echo "Installing pre-commit hooks..."
 pre-commit install --install-hooks
+
+echo "Installing Claude Code CLI..."
+curl -fsSL https://claude.ai/install.sh | bash
 
 echo ""
 echo "Running setup verification..."
