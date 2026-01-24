@@ -58,10 +58,18 @@ files:
     content: "@templates/.markdownlintignore"
   .mega-linter-base.yml:
     schemaUrl: https://raw.githubusercontent.com/oxsecurity/megalinter/main/megalinter/descriptors/schemas/megalinter-configuration.jsonschema.json
+    header:
+      - Base MegaLinter configuration synced from repo-operator
+      - This file is automatically updated - do not modify directly
+      - To add custom linters, modify .mega-linter.yml instead
     content: "@templates/.mega-linter-base.yml"
   .mega-linter.yml:
     createOnly: true
     schemaUrl: https://raw.githubusercontent.com/oxsecurity/megalinter/main/megalinter/descriptors/schemas/megalinter-configuration.jsonschema.json
+    header:
+      - Project-specific MegaLinter configuration
+      - Extends the base config from repo-operator
+      - Add custom linters or overrides below
     content: "@templates/.mega-linter.yml"
   .pre-commit-config.yaml:
     schemaUrl: https://raw.githubusercontent.com/SchemaStore/schemastore/master/src/schemas/json/pre-commit-config.json
