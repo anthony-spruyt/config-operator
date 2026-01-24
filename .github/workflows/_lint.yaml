@@ -7,6 +7,7 @@ on:
 
 jobs:
   lint:
+    name: MegaLinter
     runs-on: ubuntu-latest
     concurrency:
       group: ${{ github.workflow }}-lint-${{ github.ref }}
