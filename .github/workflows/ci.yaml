@@ -18,9 +18,6 @@ permissions:
 jobs:
   lint:
     uses: anthony-spruyt/repo-operator/.github/workflows/_lint.yaml@main
-    with:
-      megalinter-image: "ghcr.io/anthony-spruyt/megalinter-container-images@sha256:575587d9caf54235888e3749734aec1ef094bdbd876dd0e0c88f443114a415ee"
-      validate-all-codebase: ${{ github.event_name == 'workflow_dispatch' }}
     secrets: inherit
 
   sync-config:
