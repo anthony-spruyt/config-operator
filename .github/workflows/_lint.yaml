@@ -21,4 +21,5 @@ jobs:
       - name: Run MegaLinter
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VALIDATE_ALL_CODEBASE: ${{ github.event_name != 'pull_request' }}
         run: ./lint.sh --ci

@@ -4,7 +4,7 @@ id: repo-operator
 repos:
   - git: https://github.com/anthony-spruyt/repo-operator.git
   #- git: https://github.com/anthony-spruyt/bai2csv.git
-  #- git: https://github.com/anthony-spruyt/claude-config.git
+  - git: https://github.com/anthony-spruyt/claude-config.git
   #- git: https://github.com/anthony-spruyt/container-images.git
   #- git: https://github.com/anthony-spruyt/firemerge.git
   #- git: https://github.com/anthony-spruyt/gastown-dev.git
@@ -46,8 +46,10 @@ files:
   .github/actionlint.yaml:
     createOnly: true
     header:
-      - actionlint configuration
       - https://github.com/rhysd/actionlint/blob/main/docs/config.md
+      - Ignore shellcheck warnings in all workflows
+      - "SC2153: Uppercase env vars from GitHub Actions workflow env blocks"
+      - "SC2034: Variables used in heredocs appear unused"
     content: "@templates/.github/actionlint.yaml"
   .vscode/settings.json:
     createOnly: true

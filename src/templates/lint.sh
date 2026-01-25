@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC2193 # $$ is xfg template escaping, becomes $ after processing
 set -euo pipefail
 
 # This file is automatically updated - do not modify directly
@@ -25,7 +26,7 @@ if [[ "$${1:-}" == "--ci" ]]; then
   docker run \
     -e MEGALINTER_FLAVOR="$MEGALINTER_FLAVOR" \
     -e GITHUB_TOKEN="$${GITHUB_TOKEN:-}" \
-    -e VALIDATE_ALL_CODEBASE="$VALIDATE_ALL_CODEBASE" \
+    -e VALIDATE_ALL_CODEBASE="$${VALIDATE_ALL_CODEBASE:-}" \
     -e DEFAULT_WORKSPACE=/tmp/lint \
     -e GITHUB_REPOSITORY="$${GITHUB_REPOSITORY:-}" \
     -e GITHUB_SHA="$${GITHUB_SHA:-}" \
@@ -46,7 +47,7 @@ else
     -w /tmp/lint \
     -e HOME=/tmp \
     -e MEGALINTER_FLAVOR="$MEGALINTER_FLAVOR" \
-    -e VALIDATE_ALL_CODEBASE="$VALIDATE_ALL_CODEBASE" \
+    -e VALIDATE_ALL_CODEBASE="true" \
     -e APPLY_FIXES="all" \
     -e UPDATED_SOURCES_REPORTER="true" \
     -e REPORT_OUTPUT_FOLDER="/tmp/lint/.output" \

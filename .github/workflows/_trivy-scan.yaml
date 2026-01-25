@@ -38,7 +38,6 @@ jobs:
       - name: Process results and manage issue
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        # shellcheck disable=SC2016
         run: |
           ISSUE_TITLE="[Trivy] Security vulnerabilities found"
 
