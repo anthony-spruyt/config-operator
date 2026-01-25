@@ -4,7 +4,7 @@
 # Extends the base config from repo-operator
 # Add custom linters or overrides below
 EXTENDS:
-  - https://raw.githubusercontent.com/anthony-spruyt/repo-operator/main/src/templates/.mega-linter-base.yml
+  - .mega-linter-base.yml
 # Append additional linters to base config (don't replace)
 CONFIG_PROPERTIES_TO_APPEND:
   - ENABLE_LINTERS
