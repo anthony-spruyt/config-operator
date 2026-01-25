@@ -8,6 +8,10 @@ on:
     - cron: "0 6 * * *"
   workflow_dispatch: {}
 
+permissions:
+  contents: read
+  issues: write
+
 jobs:
   scan:
     uses: anthony-spruyt/repo-operator/.github/workflows/_trivy-scan.yaml@main
