@@ -1,14 +1,66 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/anthony-spruyt/xfg/main/config-schema.json
+id: repo-operator
+
 repos:
   - git: https://github.com/anthony-spruyt/repo-operator.git
   #- git: https://github.com/anthony-spruyt/bai2csv.git
-  #- git: https://github.com/anthony-spruyt/claude-config.git
+  - git: https://github.com/anthony-spruyt/claude-config.git
+    files:
+      .devcontainer/devcontainer.json:
+        content:
+          customizations:
+            vscode:
+              $arrayMerge: append
+              extensions:
+                - "jetmartin.bats"
+      .devcontainer/setup-devcontainer.sh:
+        content: |-
+          #!/bin/bash
+          set -euo pipefail
+
+          # Implement custom devcontainer setup here. This is run after the devcontainer has been created.
+
+          echo ""
+          echo "Installing bats-core and test helpers..."
+          git clone --depth 1 https://github.com/bats-core/bats-core.git /tmp/bats-core
+          sudo /tmp/bats-core/install.sh /usr/local
+
+          sudo mkdir -p /usr/local/lib/bats
+          sudo git clone --depth 1 https://github.com/bats-core/bats-support.git /usr/local/lib/bats/bats-support
+          sudo git clone --depth 1 https://github.com/bats-core/bats-assert.git /usr/local/lib/bats/bats-assert
+          sudo git clone --depth 1 https://github.com/bats-core/bats-file.git /usr/local/lib/bats/bats-file
+
+          echo "✅ bats-core installed"
+
+          echo ""
+          echo "Installing Python test dependencies..."
+          pip3 install --quiet pathspec pyyaml
+          echo "✅ Python dependencies installed"
+      lint-config.sh:
+        content: |-
+          #!/usr/bin/env bash
+          # shellcheck disable=SC2034 # Variables used by sourcing script (lint.sh)
+          # Lint configuration - customize per repository
+          # This file is sourced by lint.sh for both local and CI runs
+
+          # MegaLinter Docker image (use digest for reproducibility)
+          # renovate: TODO
+          MEGALINTER_IMAGE="ghcr.io/oxsecurity/megalinter-documentation@sha256:c2f426be556c45c8ca6ca4bccb147160711531c698362dd0a05918536fc022bf"
+
+          # Skip linting for renovate/dependabot commits in CI
+          SKIP_BOT_COMMITS=true
+
+          # MegaLinter flavor (use "all" for custom images to bypass flavor validation)
+          MEGALINTER_FLAVOR="all"
+
   #- git: https://github.com/anthony-spruyt/container-images.git
   #- git: https://github.com/anthony-spruyt/firemerge.git
   #- git: https://github.com/anthony-spruyt/gastown-dev.git
   #- git: https://github.com/anthony-spruyt/xfg.git
   #- git: https://github.com/anthony-spruyt/spruyt-labs.git
   #- git: https://github.com/anthony-spruyt/SunGather.git
+
+deleteOrphaned: true
 
 prOptions:
   merge: manual
@@ -20,8 +72,9 @@ files:
     content: "@templates/.devcontainer/package.json"
   .devcontainer/post-create.sh:
     content: "@templates/.devcontainer/post-create.sh"
-  .devcontainer/verify-setup.sh:
-    content: "@templates/.devcontainer/verify-setup.sh"
+  .devcontainer/setup-devcontainer.sh:
+    createOnly: true
+    content: "@templates/.devcontainer/setup-devcontainer.sh"
   .github/rulesets/pr-rules.json:
     content: "@templates/.github/rulesets/pr-rules.json"
   .github/rulesets/push-protection.json:
@@ -29,7 +82,13 @@ files:
   .github/workflows/ci.yaml:
     createOnly: true
     schemaUrl: https://raw.githubusercontent.com/SchemaStore/schemastore/master/src/schemas/json/github-workflow.json
+    header: See https://github.com/anthony-spruyt/repo-operator/blob/main/src/templates/.github/workflows/ci.yaml for template comments
     content: "@templates/.github/workflows/ci.yaml"
+  .github/workflows/trivy-scan.yaml:
+    createOnly: true
+    schemaUrl: https://raw.githubusercontent.com/SchemaStore/schemastore/master/src/schemas/json/github-workflow.json
+    header: See https://github.com/anthony-spruyt/repo-operator/blob/main/src/templates/.github/workflows/trivy-scan.yaml for template comments
+    content: "@templates/.github/workflows/trivy-scan.yaml"
   .github/renovate.json5:
     createOnly: true
     content: "@templates/.github/renovate.json5"
@@ -38,8 +97,10 @@ files:
   .github/actionlint.yaml:
     createOnly: true
     header:
-      - actionlint configuration
       - https://github.com/rhysd/actionlint/blob/main/docs/config.md
+      - Ignore shellcheck warnings in all workflows
+      - "SC2153: Uppercase env vars from GitHub Actions workflow env blocks"
+      - "SC2034: Variables used in heredocs appear unused"
     content: "@templates/.github/actionlint.yaml"
   .vscode/settings.json:
     createOnly: true
@@ -58,10 +119,22 @@ files:
     content: "@templates/.markdownlintignore"
   .mega-linter-base.yml:
     schemaUrl: https://raw.githubusercontent.com/oxsecurity/megalinter/main/megalinter/descriptors/schemas/megalinter-configuration.jsonschema.json
+    header:
+      - Base MegaLinter configuration synced from repo-operator
+      - This file is automatically updated - do not modify directly
+      - To add custom linters, modify .mega-linter.yml instead
     content: "@templates/.mega-linter-base.yml"
   .mega-linter.yml:
     createOnly: true
     schemaUrl: https://raw.githubusercontent.com/oxsecurity/megalinter/main/megalinter/descriptors/schemas/megalinter-configuration.jsonschema.json
+    header:
+      - Project-specific MegaLinter configuration
+      - Extends the base config from repo-operator
+      - Add custom linters or overrides below
+      - "Add project-specific linters below:"
+      - "ENABLE_LINTERS:"
+      - "  - TYPESCRIPT_ES"
+      - "  - PYTHON_PYLINT"
     content: "@templates/.mega-linter.yml"
   .pre-commit-config.yaml:
     schemaUrl: https://raw.githubusercontent.com/SchemaStore/schemastore/master/src/schemas/json/pre-commit-config.json
@@ -70,6 +143,7 @@ files:
     createOnly: true
   .prettierrc.yaml:
     schemaUrl: https://raw.githubusercontent.com/SchemaStore/schemastore/master/src/schemas/json/prettierrc.json
+    header: This file is automatically updated - do not modify directly
     content: "@templates/.prettierrc.yaml"
   .shellcheckrc:
     createOnly: true
@@ -81,14 +155,20 @@ files:
     content: "@templates/.trivyignore.yaml"
   .yamllint.yml:
     schemaUrl: https://raw.githubusercontent.com/SchemaStore/schemastore/master/src/schemas/json/yamllint.json
-    header: https://yamllint.readthedocs.io/en/latest/configuration.html
+    header:
+      - This file is automatically updated - do not modify directly
+      - https://yamllint.readthedocs.io/en/latest/configuration.html
     content: "@templates/.yamllint.yml"
   LICENSE:
     content: "@templates/LICENSE.MIT"
-  lint.sh:
+  lint-config.sh:
     createOnly: true
+    content: "@templates/lint-config.sh"
+  lint.sh:
     content: "@templates/lint.sh"
   trivy.yaml:
     schemaUrl: https://raw.githubusercontent.com/aquasecurity/trivy/main/schema/trivy-config.json
-    header: https://trivy.dev/latest/docs/references/configuration/config-file/
+    header:
+      - This file is automatically updated - do not modify directly
+      - https://trivy.dev/latest/docs/references/configuration/config-file/
     content: "@templates/trivy.yaml"

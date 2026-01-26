@@ -1,15 +1,12 @@
-# actionlint configuration
 # https://github.com/rhysd/actionlint/blob/main/docs/config.md
-
+# Ignore shellcheck warnings in all workflows
+# SC2153: Uppercase env vars from GitHub Actions workflow env blocks
+# SC2034: Variables used in heredocs appear unused
 self-hosted-runner:
   labels: []
-
 config-variables: []
-
-# Path-specific error ignoring
 paths:
-  # Ignore SC2153 warnings in all workflows
-  # SC2153: Uppercase env vars from GitHub Actions workflow env blocks
   .github/workflows/**/*.{yml,yaml}:
     ignore:
       - "shellcheck reported issue in this script: SC2153:.+"
+      - "shellcheck reported issue in this script: SC2034:.+"
