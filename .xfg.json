@@ -5,7 +5,7 @@
       ".devcontainer/devcontainer.json",
       ".devcontainer/package.json",
       ".devcontainer/post-create.sh",
-      ".devcontainer/verify-setup.sh",
+      ".devcontainer/setup-devcontainer.sh",
       ".editorconfig",
       ".github/actionlint.yaml",
       ".github/apply-rulesets.sh",
