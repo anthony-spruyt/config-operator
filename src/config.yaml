@@ -85,7 +85,7 @@ repos:
               bypass_mode: "always"
       .github/workflows/trivy-scan.yaml:
         createOnly: false
-      .vscode:
+      .vscode/settings.json:
         createOnly: false
         content:
           "files.exclude":
