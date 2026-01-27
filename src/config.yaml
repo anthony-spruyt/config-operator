@@ -41,6 +41,7 @@ repos:
             - ENABLE_LINTERS
           ENABLE_LINTERS:
             - DOCKERFILE_HADOLINT
+            - PYTHON_PYLINT
       lint-config.sh:
         content: |-
           #!/usr/bin/env bash
