@@ -110,6 +110,11 @@ repos:
             - ".mega-linter-base.yml"
           CONFIG_PROPERTIES_TO_APPEND:
             - "ENABLE_LINTERS"
+          ENABLE_LINTERS:
+            - JAVASCRIPT_ESLINT
+            - JAVASCRIPT_PRETTIER
+            - TYPESCRIPT_ESLINT
+            - TYPESCRIPT_PRETTIER
       .pylintrc: false
       lint-config.sh:
         createOnly: false
@@ -121,14 +126,13 @@ repos:
 
           # MegaLinter Docker image (use digest for reproducibility)
           # renovate: TODO
-          MEGALINTER_IMAGE="ghcr.io/anthony-spruyt/megalinter-container-images@sha256:575587d9caf54235888e3749734aec1ef094bdbd876dd0e0c88f443114a415ee"
+          MEGALINTER_IMAGE="ghcr.io/anthony-spruyt/megalinter-xfg@sha256:34fa4e372700ec214982d82277e79e7affbab864317a1e9f1192486a839bb610"
 
           # Skip linting for renovate/dependabot commits in CI
           SKIP_BOT_COMMITS=true
 
           # MegaLinter flavor (use "all" for custom images to bypass flavor validation)
           MEGALINTER_FLAVOR="all"
-
 files:
   .devcontainer/devcontainer.json:
     content: "@templates/.devcontainer/devcontainer.json"
