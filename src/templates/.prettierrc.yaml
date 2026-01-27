@@ -2,7 +2,7 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/SchemaStore/schemastore/master/src/schemas/json/prettierrc.json
 trailingComma: "es5"
 tabWidth: 2
-semi: false
+semi: true
 singleQuote: false
 proseWrap: "preserve"
 overrides:
