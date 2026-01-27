@@ -26,6 +26,8 @@ repos:
     prOptions:
       merge: manual
     files:
+      .github/trivy-scan.yaml:
+        createOnly: true
       .mega-linter.yml:
         content: |-
           # yaml-language-server: $schema=https://raw.githubusercontent.com/oxsecurity/megalinter/main/megalinter/descriptors/schemas/megalinter-configuration.jsonschema.json
