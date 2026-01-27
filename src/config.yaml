@@ -1,10 +1,12 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/anthony-spruyt/xfg/main/config-schema.json
 id: repo-operator
 
+deleteOrphaned: true
+
+prOptions:
+  merge: manual
+
 repos:
-  - git: https://github.com/anthony-spruyt/repo-operator.git
-    prOptions:
-      merge: direct
   #- git: https://github.com/anthony-spruyt/bai2csv.git
   - git: https://github.com/anthony-spruyt/claude-config.git
     prOptions:
@@ -19,29 +21,25 @@ repos:
               $arrayMerge: append
               extensions:
                 - "jetmartin.bats"
-      .devcontainer/setup-devcontainer.sh:
+      .hadolint.yaml: false
+  - git: https://github.com/anthony-spruyt/container-images.git
+    prOptions:
+      merge: manual
+    files:
+      .mega-linter.yml:
         content: |-
-          #!/bin/bash
-          set -euo pipefail
-
-          # Implement custom devcontainer setup here. This is run after the devcontainer has been created.
-
-          echo ""
-          echo "Installing bats-core and test helpers..."
-          git clone --depth 1 https://github.com/bats-core/bats-core.git /tmp/bats-core
-          sudo /tmp/bats-core/install.sh /usr/local
-
-          sudo mkdir -p /usr/local/lib/bats
-          sudo git clone --depth 1 https://github.com/bats-core/bats-support.git /usr/local/lib/bats/bats-support
-          sudo git clone --depth 1 https://github.com/bats-core/bats-assert.git /usr/local/lib/bats/bats-assert
-          sudo git clone --depth 1 https://github.com/bats-core/bats-file.git /usr/local/lib/bats/bats-file
-
-          echo "✅ bats-core installed"
-
-          echo ""
-          echo "Installing Python test dependencies..."
-          pip3 install --quiet pathspec pyyaml
-          echo "✅ Python dependencies installed"
+          # yaml-language-server: $schema=https://raw.githubusercontent.com/oxsecurity/megalinter/main/megalinter/descriptors/schemas/megalinter-configuration.jsonschema.json
+          # Project-specific MegaLinter configuration
+          # Extends the base config from repo-operator
+          # Add custom linters or overrides below
+          EXTENDS:
+            - .mega-linter-base.yml
+          # Append additional linters to base config (don't replace)
+          CONFIG_PROPERTIES_TO_APPEND:
+            - ENABLE_LINTERS
+          # Add project-specific linters below:
+          ENABLE_LINTERS:
+            - DOCKERFILE_HADOLINT
       lint-config.sh:
         content: |-
           #!/usr/bin/env bash
@@ -51,25 +49,24 @@ repos:
 
           # MegaLinter Docker image (use digest for reproducibility)
           # renovate: TODO
-          MEGALINTER_IMAGE="ghcr.io/oxsecurity/megalinter-documentation@sha256:c2f426be556c45c8ca6ca4bccb147160711531c698362dd0a05918536fc022bf"
+          MEGALINTER_IMAGE="ghcr.io/anthony-spruyt/megalinter-container-images@sha256:a96ce561aec6be236738b812fc3aad5ff20d15e648404ca19408b092d37d7e75"
 
           # Skip linting for renovate/dependabot commits in CI
           SKIP_BOT_COMMITS=true
 
           # MegaLinter flavor (use "all" for custom images to bypass flavor validation)
           MEGALINTER_FLAVOR="all"
-
-  #- git: https://github.com/anthony-spruyt/container-images.git
   #- git: https://github.com/anthony-spruyt/firemerge.git
   #- git: https://github.com/anthony-spruyt/gastown-dev.git
-  #- git: https://github.com/anthony-spruyt/xfg.git
+  - git: https://github.com/anthony-spruyt/repo-operator.git
+    prOptions:
+      merge: direct
+    files:
+      .hadolint.yaml: false
+      .pylintrc: false
   #- git: https://github.com/anthony-spruyt/spruyt-labs.git
   #- git: https://github.com/anthony-spruyt/SunGather.git
-
-deleteOrphaned: true
-
-prOptions:
-  merge: manual
+  #- git: https://github.com/anthony-spruyt/xfg.git
 
 files:
   .devcontainer/devcontainer.json:
@@ -116,6 +113,9 @@ files:
   .gitignore:
     createOnly: true
     content: "@templates/.gitignore"
+  .hadolint.yaml:
+    createOnly: true
+    content: "@templates/.hadolint.yaml"
   .lycheeignore:
     createOnly: true
   .markdownlint.json:
@@ -151,6 +151,8 @@ files:
     schemaUrl: https://raw.githubusercontent.com/SchemaStore/schemastore/master/src/schemas/json/prettierrc.json
     header: This file is automatically updated - do not modify directly
     content: "@templates/.prettierrc.yaml"
+  .pylintrc:
+    createOnly: true
   .shellcheckrc:
     createOnly: true
   .trivyignore.yaml:
