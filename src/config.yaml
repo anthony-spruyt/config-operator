@@ -29,17 +29,16 @@ repos:
       .github/workflows/trivy-scan.yaml:
         createOnly: true
       .mega-linter.yml:
-        content: |-
-          # yaml-language-server: $schema=https://raw.githubusercontent.com/oxsecurity/megalinter/main/megalinter/descriptors/schemas/megalinter-configuration.jsonschema.json
-          # Project-specific MegaLinter configuration
-          # Extends the base config from repo-operator
-          # Add custom linters or overrides below
+        schemaUrl: https://raw.githubusercontent.com/oxsecurity/megalinter/main/megalinter/descriptors/schemas/megalinter-configuration.jsonschema.json
+        header:
+          - Project-specific MegaLinter configuration
+          - Extends the base config from repo-operator
+          - Add custom linters or overrides below
+        content:
           EXTENDS:
             - .mega-linter-base.yml
-          # Append additional linters to base config (don't replace)
           CONFIG_PROPERTIES_TO_APPEND:
             - ENABLE_LINTERS
-          # Add project-specific linters below:
           ENABLE_LINTERS:
             - DOCKERFILE_HADOLINT
       lint-config.sh:
