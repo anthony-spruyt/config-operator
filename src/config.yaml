@@ -74,6 +74,13 @@ repos:
             "tmp/": true
       .hadolint.yaml: false
       .pylintrc: false
+      trivy.yaml:
+        content:
+          scan:
+            $arrayMerge: replace
+            scanners:
+              - vuln
+              - secret
 
 files:
   .devcontainer/devcontainer.json:
