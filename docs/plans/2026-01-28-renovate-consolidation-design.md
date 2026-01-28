@@ -28,7 +28,7 @@ Consolidate Renovate configurations from multiple repositories into a single, mo
 
 ### File Structure
 
-```
+```text
 src/templates/.github/
 ├── renovate.json5                          # Main config (extends modules)
 └── renovate/
