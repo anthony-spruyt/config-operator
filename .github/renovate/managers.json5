@@ -1,7 +1,7 @@
+// This file is automatically updated - do not modify directly
 {
-  "$generated": "This file is automatically updated - do not modify directly",
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "enabledManagers": [
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  enabledManagers: [
     "custom.regex",
     "devcontainer",
     "dockerfile",
@@ -12,35 +12,31 @@
     "npm",
     "pip_requirements",
     "pre-commit",
-    "terraform"
+    "terraform",
   ],
-  "devcontainer": {
-    "managerFilePatterns": [
-      "/\\.?devcontainer\\.json$/"
-    ]
+  devcontainer: {
+    managerFilePatterns: ["/\\.?devcontainer\\.json$/"],
   },
-  "flux": {
-    "managerFilePatterns": [
-      "/(^|/)cluster/.+\\.ya?ml$/"
-    ]
+  flux: {
+    managerFilePatterns: ["/(^|/)cluster/.+\\.ya?ml$/"],
   },
   "helm-values": {
-    "managerFilePatterns": [
+    managerFilePatterns: [
       "/(^|/)cluster/.+/(values(\\.\\w+)?|values\\.ya?ml)$/",
-      "/(^|/)cluster/.+/(release|helmrelease)\\.ya?ml$/"
-    ]
+      "/(^|/)cluster/.+/(release|helmrelease)\\.ya?ml$/",
+    ],
   },
-  "kubernetes": {
-    "managerFilePatterns": [
+  kubernetes: {
+    managerFilePatterns: [
       "/(^|/)cluster/.+\\.ya?ml$/",
-      "/(^|/)talos/.+\\.ya?ml$/"
-    ]
+      "/(^|/)talos/.+\\.ya?ml$/",
+    ],
   },
-  "terraform": {
-    "managerFilePatterns": [
+  terraform: {
+    managerFilePatterns: [
       "/\\.tf$/",
       "/\\.tfvars/",
-      "/\\.terraform\\.lock\\.hcl$/"
-    ]
-  }
+      "/\\.terraform\\.lock\\.hcl$/",
+    ],
+  },
 }

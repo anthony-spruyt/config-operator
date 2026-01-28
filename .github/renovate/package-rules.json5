@@ -1,226 +1,119 @@
+// This file is automatically updated - do not modify directly
 {
-  "$generated": "This file is automatically updated - do not modify directly",
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "packageRules": [
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  packageRules: [
+    // ============ Docker/OCI ============
     {
-      "matchDatasources": [
-        "docker",
-        "oci"
-      ],
-      "enabled": true,
-      "commitMessageTopic": "container image {{depName}}",
-      "commitMessageExtra": "to {{#if isSingleVersion}}v{{{newVersion}}}{{else}}{{{newValue}}}{{/if}}",
-      "pinDigests": false
+      matchDatasources: ["docker", "oci"],
+      enabled: true,
+      commitMessageTopic: "container image {{depName}}",
+      commitMessageExtra: "to {{#if isSingleVersion}}v{{{newVersion}}}{{else}}{{{newValue}}}{{/if}}",
+      pinDigests: false,
     },
     {
-      "matchDatasources": [
-        "docker",
-        "oci"
-      ],
-      "matchUpdateTypes": [
-        "major"
-      ],
-      "labels": [
-        "renovate/image",
-        "dep/major"
-      ]
+      matchDatasources: ["docker", "oci"],
+      matchUpdateTypes: ["major"],
+      labels: ["renovate/image", "dep/major"],
     },
     {
-      "matchDatasources": [
-        "docker",
-        "oci"
-      ],
-      "matchUpdateTypes": [
-        "minor"
-      ],
-      "labels": [
-        "renovate/image",
-        "dep/minor"
-      ]
+      matchDatasources: ["docker", "oci"],
+      matchUpdateTypes: ["minor"],
+      labels: ["renovate/image", "dep/minor"],
     },
     {
-      "matchDatasources": [
-        "docker",
-        "oci"
-      ],
-      "matchUpdateTypes": [
-        "patch"
-      ],
-      "labels": [
-        "renovate/image",
-        "dep/patch"
-      ]
+      matchDatasources: ["docker", "oci"],
+      matchUpdateTypes: ["patch"],
+      labels: ["renovate/image", "dep/patch"],
+    },
+
+    // ============ Helm ============
+    {
+      matchDatasources: ["helm"],
+      separateMinorPatch: true,
+      ignoreDeprecated: true,
     },
     {
-      "matchDatasources": [
-        "helm"
-      ],
-      "separateMinorPatch": true,
-      "ignoreDeprecated": true
+      matchDatasources: ["helm"],
+      matchUpdateTypes: ["major"],
+      labels: ["renovate/helm", "dep/major"],
     },
     {
-      "matchDatasources": [
-        "helm"
-      ],
-      "matchUpdateTypes": [
-        "major"
-      ],
-      "labels": [
-        "renovate/helm",
-        "dep/major"
-      ]
+      matchDatasources: ["helm"],
+      matchUpdateTypes: ["minor"],
+      labels: ["renovate/helm", "dep/minor"],
     },
     {
-      "matchDatasources": [
-        "helm"
-      ],
-      "matchUpdateTypes": [
-        "minor"
-      ],
-      "labels": [
-        "renovate/helm",
-        "dep/minor"
-      ]
+      matchDatasources: ["helm"],
+      matchUpdateTypes: ["patch"],
+      labels: ["renovate/helm", "dep/patch"],
+    },
+
+    // ============ Managers ============
+    {
+      matchManagers: ["github-actions"],
+      labels: ["renovate/github-actions"],
+      minimumReleaseAge: "2 days",
     },
     {
-      "matchDatasources": [
-        "helm"
-      ],
-      "matchUpdateTypes": [
-        "patch"
-      ],
-      "labels": [
-        "renovate/helm",
-        "dep/patch"
-      ]
+      matchManagers: ["terraform"],
+      labels: ["renovate/terraform"],
+      separateMinorPatch: true,
     },
     {
-      "matchManagers": [
-        "github-actions"
-      ],
-      "labels": [
-        "renovate/github-actions"
-      ],
-      "minimumReleaseAge": "2 days"
+      matchManagers: ["devcontainer"],
+      labels: ["renovate/devcontainer"],
     },
     {
-      "matchManagers": [
-        "terraform"
-      ],
-      "labels": [
-        "renovate/terraform"
-      ],
-      "separateMinorPatch": true
+      matchManagers: ["npm"],
+      labels: ["renovate/npm"],
     },
     {
-      "matchManagers": [
-        "devcontainer"
-      ],
-      "labels": [
-        "renovate/devcontainer"
-      ]
+      matchManagers: ["pip_requirements"],
+      labels: ["renovate/python"],
     },
     {
-      "matchManagers": [
-        "npm"
-      ],
-      "labels": [
-        "renovate/npm"
-      ]
+      matchManagers: ["pre-commit"],
+      labels: ["renovate/pre-commit"],
     },
     {
-      "matchManagers": [
-        "pip_requirements"
-      ],
-      "labels": [
-        "renovate/python"
-      ]
+      matchManagers: ["flux"],
+      labels: ["renovate/flux"],
     },
     {
-      "matchManagers": [
-        "pre-commit"
-      ],
-      "labels": [
-        "renovate/pre-commit"
-      ]
+      matchManagers: ["kubernetes"],
+      labels: ["renovate/kubernetes"],
     },
     {
-      "matchManagers": [
-        "flux"
-      ],
-      "labels": [
-        "renovate/flux"
-      ]
+      matchManagers: ["helm-values"],
+      labels: ["renovate/helm-values"],
+    },
+
+    // ============ Custom regex by path ============
+    {
+      matchManagers: ["custom.regex"],
+      labels: ["renovate/script"],
     },
     {
-      "matchManagers": [
-        "kubernetes"
-      ],
-      "labels": [
-        "renovate/kubernetes"
-      ]
+      matchManagers: ["custom.regex"],
+      matchFileNames: ["**/flavor.yaml"],
+      labels: ["renovate/megalinter-flavor"],
     },
     {
-      "matchManagers": [
-        "helm-values"
-      ],
-      "labels": [
-        "renovate/helm-values"
-      ]
+      matchManagers: ["custom.regex"],
+      matchFileNames: ["**/metadata.yaml"],
+      labels: ["renovate/upstream"],
     },
     {
-      "matchManagers": [
-        "custom.regex"
-      ],
-      "labels": [
-        "renovate/script"
-      ]
+      matchManagers: ["custom.regex"],
+      matchFileNames: [".taskfiles/**"],
+      labels: ["renovate/taskfile"],
+      pinDigests: false,
     },
     {
-      "matchManagers": [
-        "custom.regex"
-      ],
-      "matchFileNames": [
-        "**/flavor.yaml"
-      ],
-      "labels": [
-        "renovate/megalinter-flavor"
-      ]
+      matchManagers: ["custom.regex"],
+      matchFileNames: ["talos/**"],
+      labels: ["renovate/talos"],
+      minimumReleaseAge: "3 days",
     },
-    {
-      "matchManagers": [
-        "custom.regex"
-      ],
-      "matchFileNames": [
-        "**/metadata.yaml"
-      ],
-      "labels": [
-        "renovate/upstream"
-      ]
-    },
-    {
-      "matchManagers": [
-        "custom.regex"
-      ],
-      "matchFileNames": [
-        ".taskfiles/**"
-      ],
-      "labels": [
-        "renovate/taskfile"
-      ],
-      "pinDigests": false
-    },
-    {
-      "matchManagers": [
-        "custom.regex"
-      ],
-      "matchFileNames": [
-        "talos/**"
-      ],
-      "labels": [
-        "renovate/talos"
-      ],
-      "minimumReleaseAge": "3 days"
-    }
-  ]
+  ],
 }
