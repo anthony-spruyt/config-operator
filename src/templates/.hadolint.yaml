@@ -1,0 +1,4 @@
+# Hadolint configuration
+# https://github.com/hadolint/hadolint#configure
+
+ignored: []

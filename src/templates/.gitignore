@@ -1,4 +1,4 @@
-.output
+# Node
 node_modules/
 
 # Prevent accidental secret commits
@@ -10,3 +10,12 @@ node_modules/
 # Python
 __pycache__/
 *.py[cod]
+
+# Claude
+.claude/settings.local.json
+
+# SSH agent
+agent.sock
+
+# MegaLinter
+.output
