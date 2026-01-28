@@ -25,7 +25,7 @@ jobs:
         run: ./lint.sh --ci
 
       - name: Upload SARIF to GitHub Security
-        if: success() || failure()
+        if: (success() || failure()) && hashFiles('megalinter-reports/megalinter-report.sarif') != ''
         continue-on-error: true
         id: sarif-upload
         uses: github/codeql-action/upload-sarif@eb5bd2d0b9b06a3b8ec8f2963745331e2b01831e
@@ -35,9 +35,9 @@ jobs:
       - name: SARIF upload status
         if: steps.sarif-upload.outcome == 'failure'
         run: |
-          echo "::notice::SARIF upload skipped (requires security-events: write permission)"
+          echo "::notice::SARIF upload failed (check security-events: write permission)"
           {
             echo "## Code Scanning"
             echo ""
-            echo "> **Note:** SARIF upload skipped. Add \`security-events: write\` permission to enable Code Scanning."
+            echo "> **Note:** SARIF upload failed. Ensure \`security-events: write\` permission is set."
           } >> "$GITHUB_STEP_SUMMARY"
