@@ -6,7 +6,7 @@
       description: "Disable kubernetes-api datasource (noisy, not useful)",
       matchManagers: ["kubernetes"],
       matchDatasources: ["kubernetes-api"],
-      enabled: false,
-    },
-  ],
+      enabled: false
+    }
+  ]
 }

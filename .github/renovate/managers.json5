@@ -12,31 +12,31 @@
     "npm",
     "pip_requirements",
     "pre-commit",
-    "terraform",
+    "terraform"
   ],
   devcontainer: {
-    managerFilePatterns: ["/\\.?devcontainer\\.json$/"],
+    managerFilePatterns: ["/\\.?devcontainer\\.json$/"]
   },
   flux: {
-    managerFilePatterns: ["/(^|/)cluster/.+\\.ya?ml$/"],
+    managerFilePatterns: ["/(^|/)cluster/.+\\.ya?ml$/"]
   },
   "helm-values": {
     managerFilePatterns: [
       "/(^|/)cluster/.+/(values(\\.\\w+)?|values\\.ya?ml)$/",
-      "/(^|/)cluster/.+/(release|helmrelease)\\.ya?ml$/",
-    ],
+      "/(^|/)cluster/.+/(release|helmrelease)\\.ya?ml$/"
+    ]
   },
   kubernetes: {
     managerFilePatterns: [
       "/(^|/)cluster/.+\\.ya?ml$/",
-      "/(^|/)talos/.+\\.ya?ml$/",
-    ],
+      "/(^|/)talos/.+\\.ya?ml$/"
+    ]
   },
   terraform: {
     managerFilePatterns: [
       "/\\.tf$/",
       "/\\.tfvars/",
-      "/\\.terraform\\.lock\\.hcl$/",
-    ],
-  },
+      "/\\.terraform\\.lock\\.hcl$/"
+    ]
+  }
 }

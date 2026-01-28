@@ -6,8 +6,8 @@
       defaultRegistryUrlTemplate: "https://artifacthub.io/api/v1/packages/headlamp/{{packageName}}",
       format: "json",
       transformTemplates: [
-        '{ "releases": [$map(available_versions, function($v) { { "version": $v.version } })] }',
-      ],
-    },
-  },
+        "{ \"releases\": [$map(available_versions, function($v) { { \"version\": $v.version } })] }"
+      ]
+    }
+  }
 }

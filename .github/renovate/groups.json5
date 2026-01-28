@@ -8,11 +8,11 @@
       matchPackageNames: [
         "ghcr.io/rook/rook-ceph",
         "ghcr.io/rook/rook-ceph-cluster",
-        "quay.io/ceph/ceph",
+        "quay.io/ceph/ceph"
       ],
       matchDatasources: ["docker", "helm", "oci"],
       group: { commitMessageTopic: "{{{groupName}}} group" },
-      separateMinorPatch: true,
+      separateMinorPatch: true
     },
     {
       description: "Traefik chart and CRD",
@@ -20,7 +20,7 @@
       matchPackageNames: ["traefik", "traefik-crd-source"],
       matchDatasources: ["helm", "regex", "github-tags"],
       group: { commitMessageTopic: "{{{groupName}}} group" },
-      separateMinorPatch: true,
+      separateMinorPatch: true
     },
     {
       description: "Cilium CNI",
@@ -28,11 +28,11 @@
       matchPackageNames: [
         "quay.io/cilium/cilium",
         "quay.io/cilium/operator-generic",
-        "cilium",
+        "cilium"
       ],
       matchDatasources: ["helm", "docker"],
       separateMinorPatch: true,
-      minimumReleaseAge: "2 days",
+      minimumReleaseAge: "2 days"
     },
     {
       description: "Victoria Metrics components",
@@ -40,11 +40,11 @@
       matchPackageNames: [
         "victoria-metrics",
         "victoriametrics",
-        "ghcr.io/victoriametrics/helm-charts",
+        "ghcr.io/victoriametrics/helm-charts"
       ],
       matchDatasources: ["helm", "docker", "oci"],
       group: { commitMessageTopic: "{{{groupName}}} group" },
-      separateMinorPatch: true,
+      separateMinorPatch: true
     },
     {
       description: "External Secrets Operator",
@@ -53,7 +53,7 @@
       matchDatasources: ["helm"],
       group: { commitMessageTopic: "{{{groupName}}} group" },
       separateMinorPatch: true,
-      minimumReleaseAge: "7 days",
+      minimumReleaseAge: "7 days"
     },
     {
       description: "CloudNativePG components",
@@ -61,7 +61,7 @@
       matchPackageNames: ["cloudnative-pg", "cnpg"],
       matchDatasources: ["helm", "docker"],
       group: { commitMessageTopic: "{{{groupName}}} group" },
-      separateMinorPatch: true,
+      separateMinorPatch: true
     },
     {
       description: "Flux components",
@@ -70,7 +70,7 @@
       matchDatasources: ["docker", "helm", "github-releases"],
       group: { commitMessageTopic: "{{{groupName}}} group" },
       separateMinorPatch: true,
-      minimumReleaseAge: "7 days",
+      minimumReleaseAge: "7 days"
     },
     {
       description: "Authentik stack",
@@ -78,7 +78,7 @@
       matchPackageNames: ["goauthentik/*", "ghcr.io/goauthentik/*"],
       matchDatasources: ["docker", "helm"],
       group: { commitMessageTopic: "{{{groupName}}} group" },
-      separateMinorPatch: true,
+      separateMinorPatch: true
     },
     {
       description: "Cert-Manager components",
@@ -87,7 +87,7 @@
       matchDatasources: ["helm", "docker"],
       group: { commitMessageTopic: "{{{groupName}}} group" },
       separateMinorPatch: true,
-      minimumReleaseAge: "7 days",
+      minimumReleaseAge: "7 days"
     },
     {
       description: "External-DNS components",
@@ -95,39 +95,39 @@
       matchPackageNames: ["external-dns", "kubernetes-sigs/external-dns"],
       matchDatasources: ["helm", "docker"],
       group: { commitMessageTopic: "{{{groupName}}} group" },
-      separateMinorPatch: true,
+      separateMinorPatch: true
     },
     {
       description: "Snapshot Controller components",
       groupName: "Snapshot Controller",
       matchPackageNames: [
         "snapshot-controller",
-        "kubernetes-csi/external-snapshotter",
+        "kubernetes-csi/external-snapshotter"
       ],
       matchDatasources: ["helm", "docker"],
       group: { commitMessageTopic: "{{{groupName}}} group" },
-      separateMinorPatch: true,
+      separateMinorPatch: true
     },
     {
       description: "CI/CD Actions",
       groupName: "CI/CD Actions",
       matchManagers: ["github-actions"],
       matchPackageNames: ["actions/*", "docker/*"],
-      group: { commitMessageTopic: "{{{groupName}}} group" },
+      group: { commitMessageTopic: "{{{groupName}}} group" }
     },
     {
       description: "BJW-S App Template",
       groupName: "App Template",
       matchPackageNames: ["ghcr.io/bjw-s-labs/helm/app-template"],
       matchDatasources: ["helm"],
-      group: { commitMessageTopic: "{{{groupName}}} group" },
+      group: { commitMessageTopic: "{{{groupName}}} group" }
     },
     {
       description: "Kubernetes and Talos",
       groupName: "Kubernetes/Talos",
       matchPackageNames: ["kubernetes", "siderolabs/talos"],
       matchDatasources: ["docker", "github-releases", "custom.regex"],
-      group: { commitMessageTopic: "{{{groupName}}} group" },
-    },
-  ],
+      group: { commitMessageTopic: "{{{groupName}}} group" }
+    }
+  ]
 }

@@ -8,112 +8,112 @@
       enabled: true,
       commitMessageTopic: "container image {{depName}}",
       commitMessageExtra: "to {{#if isSingleVersion}}v{{{newVersion}}}{{else}}{{{newValue}}}{{/if}}",
-      pinDigests: false,
+      pinDigests: false
     },
     {
       matchDatasources: ["docker", "oci"],
       matchUpdateTypes: ["major"],
-      labels: ["renovate/image", "dep/major"],
+      labels: ["renovate/image", "dep/major"]
     },
     {
       matchDatasources: ["docker", "oci"],
       matchUpdateTypes: ["minor"],
-      labels: ["renovate/image", "dep/minor"],
+      labels: ["renovate/image", "dep/minor"]
     },
     {
       matchDatasources: ["docker", "oci"],
       matchUpdateTypes: ["patch"],
-      labels: ["renovate/image", "dep/patch"],
+      labels: ["renovate/image", "dep/patch"]
     },
 
     // ============ Helm ============
     {
       matchDatasources: ["helm"],
       separateMinorPatch: true,
-      ignoreDeprecated: true,
+      ignoreDeprecated: true
     },
     {
       matchDatasources: ["helm"],
       matchUpdateTypes: ["major"],
-      labels: ["renovate/helm", "dep/major"],
+      labels: ["renovate/helm", "dep/major"]
     },
     {
       matchDatasources: ["helm"],
       matchUpdateTypes: ["minor"],
-      labels: ["renovate/helm", "dep/minor"],
+      labels: ["renovate/helm", "dep/minor"]
     },
     {
       matchDatasources: ["helm"],
       matchUpdateTypes: ["patch"],
-      labels: ["renovate/helm", "dep/patch"],
+      labels: ["renovate/helm", "dep/patch"]
     },
 
     // ============ Managers ============
     {
       matchManagers: ["github-actions"],
       labels: ["renovate/github-actions"],
-      minimumReleaseAge: "2 days",
+      minimumReleaseAge: "2 days"
     },
     {
       matchManagers: ["terraform"],
       labels: ["renovate/terraform"],
-      separateMinorPatch: true,
+      separateMinorPatch: true
     },
     {
       matchManagers: ["devcontainer"],
-      labels: ["renovate/devcontainer"],
+      labels: ["renovate/devcontainer"]
     },
     {
       matchManagers: ["npm"],
-      labels: ["renovate/npm"],
+      labels: ["renovate/npm"]
     },
     {
       matchManagers: ["pip_requirements"],
-      labels: ["renovate/python"],
+      labels: ["renovate/python"]
     },
     {
       matchManagers: ["pre-commit"],
-      labels: ["renovate/pre-commit"],
+      labels: ["renovate/pre-commit"]
     },
     {
       matchManagers: ["flux"],
-      labels: ["renovate/flux"],
+      labels: ["renovate/flux"]
     },
     {
       matchManagers: ["kubernetes"],
-      labels: ["renovate/kubernetes"],
+      labels: ["renovate/kubernetes"]
     },
     {
       matchManagers: ["helm-values"],
-      labels: ["renovate/helm-values"],
+      labels: ["renovate/helm-values"]
     },
 
     // ============ Custom regex by path ============
     {
       matchManagers: ["custom.regex"],
-      labels: ["renovate/script"],
+      labels: ["renovate/script"]
     },
     {
       matchManagers: ["custom.regex"],
       matchFileNames: ["**/flavor.yaml"],
-      labels: ["renovate/megalinter-flavor"],
+      labels: ["renovate/megalinter-flavor"]
     },
     {
       matchManagers: ["custom.regex"],
       matchFileNames: ["**/metadata.yaml"],
-      labels: ["renovate/upstream"],
+      labels: ["renovate/upstream"]
     },
     {
       matchManagers: ["custom.regex"],
       matchFileNames: [".taskfiles/**"],
       labels: ["renovate/taskfile"],
-      pinDigests: false,
+      pinDigests: false
     },
     {
       matchManagers: ["custom.regex"],
       matchFileNames: ["talos/**"],
       labels: ["renovate/talos"],
-      minimumReleaseAge: "3 days",
-    },
-  ],
+      minimumReleaseAge: "3 days"
+    }
+  ]
 }

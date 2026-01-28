@@ -8,9 +8,9 @@
       description: ["Headlamp plugins from ArtifactHub."],
       managerFilePatterns: ["/(^|/)cluster/apps/headlamp-system/.+\\.ya?ml$/"],
       matchStrings: [
-        "#\\s*renovate:\\s*depName=(?<depName>[^\\s]+)[\\s\\S]*?version:\\s*(?<currentValue>\\d[^\\s]*)",
+        "#\\s*renovate:\\s*depName=(?<depName>[^\\s]+)[\\s\\S]*?version:\\s*(?<currentValue>\\d[^\\s]*)"
       ],
-      datasourceTemplate: "custom.artifacthub-headlamp",
+      datasourceTemplate: "custom.artifacthub-headlamp"
     },
     // OCI Helm charts in helmfile
     {
@@ -18,11 +18,11 @@
       description: ["OCI Helm charts in Talos helmfile."],
       managerFilePatterns: ["/(^|/)talos/helmfile/.+\\.ya?ml$/"],
       matchStrings: [
-        "chart:\\s*oci://(?<chartPath>[\\w./-]+)\\s*\\n[^\\S\\n]*version:\\s*(?<currentValue>[^\\s\"']+)",
+        "chart:\\s*oci://(?<chartPath>[\\w./-]+)\\s*\\n[^\\S\\n]*version:\\s*(?<currentValue>[^\\s\"']+)"
       ],
       depNameTemplate: "{{{chartPath}}}",
       datasourceTemplate: "docker",
-      packageNameTemplate: "{{{chartPath}}}",
+      packageNameTemplate: "{{{chartPath}}}"
     },
     // Non-OCI Helm charts in helmfile
     {
@@ -30,25 +30,25 @@
       description: ["Non-OCI Helm charts in Talos helmfile."],
       managerFilePatterns: ["/(^|/)talos/helmfile/.+\\.ya?ml$/"],
       matchStrings: [
-        "chart:\\s*(?<chartPath>[\\w./-]+)\\s*\\n[^\\S\\n]*version:\\s*(?<currentValue>[^\\s\"']+)",
+        "chart:\\s*(?<chartPath>[\\w./-]+)\\s*\\n[^\\S\\n]*version:\\s*(?<currentValue>[^\\s\"']+)"
       ],
       depNameTemplate: "{{{chartPath}}}",
       datasourceTemplate: "helm",
-      packageNameTemplate: "{{{chartPath}}}",
+      packageNameTemplate: "{{{chartPath}}}"
     },
     // Flux OCI repository refs
     {
       customType: "regex",
       description: ["Flux OCI repository refs."],
       managerFilePatterns: [
-        "/(^|/)cluster/flux/meta/repositories/oci/.+\\.ya?ml$/",
+        "/(^|/)cluster/flux/meta/repositories/oci/.+\\.ya?ml$/"
       ],
       matchStrings: [
-        'url:\\s*oci://(?<depNamePath>[^\\s]+)[^\\S\\n]*\\n(?:[\\s\\S]*?)?ref:\\s*\\n[^\\S\\n]*tag:\\s*"?(?<currentValue>[^"\\s]+)"?',
+        "url:\\s*oci://(?<depNamePath>[^\\s]+)[^\\S\\n]*\\n(?:[\\s\\S]*?)?ref:\\s*\\n[^\\S\\n]*tag:\\s*\"?(?<currentValue>[^\"\\s]+)\"?"
       ],
       depNameTemplate: "{{{depNamePath}}}",
       datasourceTemplate: "docker",
-      packageNameTemplate: "{{{depNamePath}}}",
+      packageNameTemplate: "{{{depNamePath}}}"
     },
     // OCI artifact references in cluster manifests
     {
@@ -56,30 +56,30 @@
       description: ["OCI artifact references in cluster manifests."],
       managerFilePatterns: ["/(^|/)cluster/.+\\.ya?ml$/"],
       matchStrings: [
-        'artifact:\\s*"?oci://(?<depNamePath>[^:"\\s]+)(?::|@)(?<currentValue>[^"\\s]+)"?',
+        "artifact:\\s*\"?oci://(?<depNamePath>[^:\"\\s]+)(?::|@)(?<currentValue>[^\"\\s]+)\"?"
       ],
       depNameTemplate: "{{{depNamePath}}}",
       packageNameTemplate: "{{{depNamePath}}}",
-      datasourceTemplate: "docker",
+      datasourceTemplate: "docker"
     },
     // Container images in Taskfiles and cluster manifests
     {
       customType: "regex",
       description: [
-        "Container images in Taskfiles, scripts, and cluster manifests.",
+        "Container images in Taskfiles, scripts, and cluster manifests."
       ],
       managerFilePatterns: [
         "/(^|/)\\.taskfiles/.+\\.(ya?ml|tmpl\\.ya?ml)$/",
         "/(^|/)\\.taskfiles/.+/scripts/.+\\.(sh|bash)$/",
-        "/(^|/)cluster/.+\\.ya?ml$/",
+        "/(^|/)cluster/.+\\.ya?ml$/"
       ],
       matchStrings: [
         "image:\\s*(?<depName>[^:\\s]+):(?<currentValue>[^\\s\"']+)",
-        "(?<depName>(?:ghcr|docker\\.io|quay\\.io|registry\\.k8s\\.io)[^:\\s]+):(?<currentValue>[^\\s\"']+)",
+        "(?<depName>(?:ghcr|docker\\.io|quay\\.io|registry\\.k8s\\.io)[^:\\s]+):(?<currentValue>[^\\s\"']+)"
       ],
       depNameTemplate: "{{{depName}}}",
       packageNameTemplate: "{{{depName}}}",
-      datasourceTemplate: "docker",
-    },
-  ],
+      datasourceTemplate: "docker"
+    }
+  ]
 }

@@ -8,11 +8,11 @@
     ":disableRateLimiting",
     ":semanticCommits",
     ":enablePreCommit",
-    ":separatePatchReleases",
+    ":separatePatchReleases"
   ],
   enabled: true,
   dependencyDashboardTitle: "Renovate Dashboard",
   suppressNotifications: ["prIgnoreNotification"],
   commitBodyTable: true,
-  rebaseWhen: "behind-base-branch",
+  rebaseWhen: "behind-base-branch"
 }
