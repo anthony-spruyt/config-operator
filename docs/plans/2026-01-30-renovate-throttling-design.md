@@ -38,19 +38,20 @@ This complements the existing renovate CLI weekly rule.
 
 ### Container-Images Specific
 
-Add to `src/config.yaml` under container-images repo:
+Add to `.github/renovate/package-rules.json5` using `matchRepositories`:
 
-```yaml
-.github/renovate/package-rules.json5:
-  content:
-    packageRules:
-      $arrayMerge: append
-      - description: "Weekly batch for all non-major updates in container-images"
-        matchUpdateTypes: ["minor", "patch", "digest", "pin", "pinDigest"]
-        schedule: ["before 9am on monday"]
-        groupName: "weekly-dependencies"
-        group: { commitMessageTopic: "weekly dependency updates" }
+```json5
+{
+  description: "Weekly batch for all non-major updates in container-images",
+  matchRepositories: ["anthony-spruyt/container-images"],
+  matchUpdateTypes: ["minor", "patch", "digest", "pin", "pinDigest"],
+  schedule: ["before 9am on monday"],
+  groupName: "weekly-dependencies",
+  group: { commitMessageTopic: "weekly dependency updates" },
+}
 ```
+
+This is cleaner than xfg override since package-rules.json5 is centralized in repo-operator and referenced by all repos via `github>anthony-spruyt/repo-operator//...`.
 
 ## Expected Impact
 
@@ -62,7 +63,7 @@ Add to `src/config.yaml` under container-images repo:
 ## Implementation Steps
 
 1. Edit `.github/renovate/package-rules.json5` - add GitHub Actions digest rule
-2. Edit `src/config.yaml` - add container-images override
+2. Edit `.github/renovate/package-rules.json5` - add container-images `matchRepositories` rule
 3. Commit and push
-4. xfg syncs changes to all repos
+4. Renovate picks up changes on next run (no xfg sync needed - repos reference this config directly)
 5. Verify Renovate Dashboard shows new schedule
