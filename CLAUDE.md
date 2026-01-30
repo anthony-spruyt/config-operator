@@ -53,6 +53,13 @@ The operator uses [xfg](https://github.com/anthony-spruyt/xfg) to sync files to 
 **Templates directory**: `src/templates/`
 Contains all template files that get distributed: devcontainer setup, GitHub workflows, linting configs, editor configs, etc.
 
+### Renovate Configuration
+
+Modular config in `.github/renovate/` is NOT synced to repos - other repos reference it directly via `github>anthony-spruyt/repo-operator//...` extends. Changes here affect all repos immediately.
+
+- For repo-specific rules, use `matchRepositories: ["owner/repo"]` in `package-rules.json5`
+- Don't use xfg overrides for Renovate array merging (YAML syntax limitation with `$arrayMerge`)
+
 ### CI/CD Pipeline
 
 The GitHub Actions workflow (`.github/workflows/ci.yaml`) runs:
