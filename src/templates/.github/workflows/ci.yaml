@@ -15,8 +15,8 @@ on:
 permissions:
   contents: "write"
   pull-requests: "write"
-  statuses: "write"
   security-events: "write"
+  statuses: "write"
 
 jobs:
   lint:

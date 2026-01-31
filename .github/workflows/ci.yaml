@@ -53,7 +53,7 @@ jobs:
 
       - name: "Sync config"
         if: "steps.changes.outputs.run_sync == 'true'"
-        uses: "anthony-spruyt/xfg@v3.0.0"
+        uses: "anthony-spruyt/xfg@v3.0.1"
         with:
           config: "./src/config.yaml"
           github-app-id: "${{ vars.APP_ID }}"
