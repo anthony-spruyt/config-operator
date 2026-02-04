@@ -20,16 +20,20 @@ permissions:
 
 jobs:
   lint:
+    if: "github.event_name != 'workflow_dispatch'"
     uses: "anthony-spruyt/repo-operator/.github/workflows/_lint.yaml@main"
     secrets: "inherit"
 
-  sync-config:
-    name: "Sync Configuration"
+  xfg:
+    name: "Run XFG"
     runs-on: "ubuntu-latest"
     needs:
       - "lint"
-    # Only run on push to main
-    if: "github.event_name == 'push'"
+    # Run on push (after lint passes) or manual dispatch (lint skipped)
+    if: >-
+      always() &&
+      (github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'push' && needs.lint.result == 'success'))
     concurrency:
       group: "config-sync"
       # IMPORTANT: Must be false - canceling a run with src/ changes
@@ -44,7 +48,10 @@ jobs:
       - name: "Check for src/ changes"
         id: "changes"
         run: |
-          if git diff --quiet HEAD~1 HEAD -- src/; then
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "::notice::Manual dispatch - forcing sync"
+            echo "run_sync=true" >> "$GITHUB_OUTPUT"
+          elif git diff --quiet HEAD~1 HEAD -- src/; then
             echo "::notice::No changes in src/, skipping sync"
             echo "run_sync=false" >> "$GITHUB_OUTPUT"
           else
