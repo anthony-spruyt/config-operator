@@ -67,12 +67,6 @@ repos:
         content:
           features:
             "ghcr.io/devcontainers/features/azure-cli": {}
-      .github/rulesets/pr-rules.json:
-        content:
-          bypass_actors:
-            - actor_id: 2719952
-              actor_type: "Integration"
-              bypass_mode: "always"
       .vscode/settings.json:
         createOnly: false
         content:
