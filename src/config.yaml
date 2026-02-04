@@ -23,24 +23,33 @@ repos:
                 - "jetmartin.bats"
       .eslintrc.json: false
       .hadolint.yaml: false
+    settings:
+      rulesets:
+        inherit: false
 
   - git: https://github.com/anthony-spruyt/container-images.git
     files:
       .github/workflows/trivy-scan.yaml:
         createOnly: true
       .eslintrc.json: false
+    settings:
+      rulesets:
+        inherit: false
 
   #- git: https://github.com/anthony-spruyt/firemerge.git
 
   #- git: https://github.com/anthony-spruyt/gastown-dev.git
 
   - git: https://github.com/anthony-spruyt/repo-operator.git
-    prOptions:
-      merge: direct
     files:
       .eslintrc.json: false
       .hadolint.yaml: false
       .pylintrc: false
+    prOptions:
+      merge: direct
+    settings:
+      rulesets:
+        inherit: false
 
   #- git: https://github.com/anthony-spruyt/spruyt-labs.git
   #  prOptions:
@@ -84,6 +93,13 @@ repos:
             scanners:
               - vuln
               - secret
+    settings:
+      rulesets:
+        pr-rules:
+          bypassActors:
+            - actorId: 2719952
+              actorType: Integration
+              bypassMode: always
 
 files:
   .devcontainer/devcontainer.json:
@@ -95,10 +111,6 @@ files:
   .devcontainer/setup-devcontainer.sh:
     createOnly: true
     content: "@templates/.devcontainer/setup-devcontainer.sh"
-  .github/rulesets/pr-rules.json:
-    content: "@templates/.github/rulesets/pr-rules.json"
-  .github/rulesets/push-protection.json:
-    content: "@templates/.github/rulesets/push-protection.json"
   .github/workflows/ci.yaml:
     createOnly: true
     schemaUrl: https://raw.githubusercontent.com/SchemaStore/schemastore/master/src/schemas/json/github-workflow.json
@@ -111,8 +123,6 @@ files:
     content: "@templates/.github/workflows/trivy-scan.yaml"
   .github/renovate.json5:
     content: "@templates/.github/renovate.json5"
-  .github/apply-rulesets.sh:
-    content: "@templates/.github/apply-rulesets.sh"
   .github/actionlint.yaml:
     createOnly: true
     header:
@@ -201,3 +211,70 @@ files:
       - This file is automatically updated - do not modify directly
       - https://trivy.dev/latest/docs/references/configuration/config-file/
     content: "@templates/trivy.yaml"
+
+settings:
+  deleteOrphaned: true
+  rulesets:
+    pr-rules:
+      bypassActors: []
+      conditions:
+        refName:
+          include:
+            - "refs/heads/main"
+          exclude: []
+      enforcement: active
+      rules:
+        - type: code_quality
+          parameters:
+            severity: errors
+        - type: code_scanning
+          parameters:
+            codeScanningTools:
+              - tool: CodeQL
+                alertsThreshold: errors
+                securityAlertsThreshold: high_or_higher
+        - type: pull_request
+          parameters:
+            allowedMergeMethods:
+              - squash
+            dismissStaleReviewsOnPush: true
+            requireCodeOwnerReview: false
+            requiredApprovingReviewCount: 0
+            requiredReviewers: []
+            requiredReviewThreadResolution: true
+            requireLastPushApproval: false
+        - type: required_signatures
+        - type: required_status_checks
+          parameters:
+            doNotEnforceOnCreate: true
+            requiredStatusChecks:
+              - context: "summary / Check Results"
+            strictRequiredStatusChecksPolicy: true
+      target: branch
+    push-protection:
+      bypassActors: []
+      conditions:
+        refName:
+          include:
+            - "refs/heads/main"
+          exclude: []
+      enforcement: active
+      rules:
+        - type: creation
+        - type: deletion
+        - type: non_fast_forward
+        - type: required_linear_history
+      target: branch
+    tag-rules:
+      bypassActors: []
+      conditions:
+        refName:
+          include:
+            - "v*"
+          exclude: []
+      enforcement: active
+      rules:
+        - type: deletion
+        - type: non_fast_forward
+        - type: required_signatures
+      target: tag
