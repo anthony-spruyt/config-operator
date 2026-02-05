@@ -11,6 +11,11 @@ on:
     branches:
       - "main"
   workflow_dispatch:
+    inputs:
+      skip_approval:
+        description: "Skip approval gate (emergency only)"
+        type: boolean
+        default: false
 
 permissions:
   contents: "write"
@@ -24,21 +29,24 @@ jobs:
     uses: "anthony-spruyt/repo-operator/.github/workflows/_lint.yaml@main"
     secrets: "inherit"
 
-  xfg:
-    name: "Run XFG"
+  xfg-plan:
+    name: "XFG Plan"
     runs-on: "ubuntu-latest"
     needs:
       - "lint"
-    # Run on push (after lint passes) or manual dispatch (lint skipped)
+    # Run on push (after lint passes), PRs, or manual dispatch (lint skipped)
     if: >-
       always() &&
       (github.event_name == 'workflow_dispatch' ||
+      github.event_name == 'pull_request' ||
       (github.event_name == 'push' && needs.lint.result == 'success'))
     concurrency:
       group: "config-sync"
       # IMPORTANT: Must be false - canceling a run with src/ changes
       # followed by a run without changes would skip the sync
       cancel-in-progress: false
+    outputs:
+      run_sync: "${{ steps.changes.outputs.run_sync }}"
     steps:
       - name: "Checkout"
         uses: "actions/checkout@v6"
@@ -58,9 +66,48 @@ jobs:
             echo "run_sync=true" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: "Sync Files"
+      - name: "Plan: Sync Files"
         if: "steps.changes.outputs.run_sync == 'true'"
-        uses: "anthony-spruyt/xfg@v3.2.0"
+        uses: "anthony-spruyt/xfg@v3.3.2"
+        with:
+          command: sync
+          config: "./src/config.yaml"
+          dry-run: true
+          github-app-id: "${{ vars.APP_ID }}"
+          github-app-private-key: "${{ secrets.APP_PRIVATE_KEY }}"
+
+      - name: "Plan: Apply Settings"
+        if: "steps.changes.outputs.run_sync == 'true'"
+        uses: "anthony-spruyt/xfg@v3.3.2"
+        with:
+          command: settings
+          config: "./src/config.yaml"
+          dry-run: true
+          github-app-id: "${{ vars.APP_ID }}"
+          github-app-private-key: "${{ secrets.APP_PRIVATE_KEY }}"
+
+  xfg-apply:
+    name: "XFG Apply"
+    runs-on: "ubuntu-latest"
+    needs:
+      - "xfg-plan"
+    # Run only on push or manual dispatch (not PRs), and only if plan succeeded
+    if: >-
+      needs.xfg-plan.result == 'success' &&
+      needs.xfg-plan.outputs.run_sync == 'true' &&
+      github.event_name != 'pull_request'
+    environment: "${{ (github.event_name == 'workflow_dispatch' && inputs.skip_approval) && '' || 'production' }}"
+    concurrency:
+      group: "config-sync"
+      cancel-in-progress: false
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v6"
+        with:
+          fetch-depth: 2
+
+      - name: "Sync Files"
+        uses: "anthony-spruyt/xfg@v3.3.2"
         with:
           command: sync
           config: "./src/config.yaml"
@@ -68,19 +115,18 @@ jobs:
           github-app-private-key: "${{ secrets.APP_PRIVATE_KEY }}"
 
       - name: "Apply Settings"
-        if: "steps.changes.outputs.run_sync == 'true'"
-        uses: "anthony-spruyt/xfg@v3.2.0"
+        uses: "anthony-spruyt/xfg@v3.3.2"
         with:
           command: settings
           config: "./src/config.yaml"
           github-app-id: "${{ vars.APP_ID }}"
           github-app-private-key: "${{ secrets.APP_PRIVATE_KEY }}"
-          dry-run: true
 
   # Summary job for branch protection - add jobs to 'needs' array
   summary:
     needs:
       - "lint"
-      - "xfg"
+      - "xfg-plan"
+      - "xfg-apply"
     if: "always()"
     uses: "anthony-spruyt/repo-operator/.github/workflows/_summary.yaml@main"
