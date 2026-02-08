@@ -1,9 +1,7 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/anthony-spruyt/xfg/main/config-schema.json
 # Configuration for repo-operator - syncs files to target repositories
 id: repo-operator
-
 deleteOrphaned: true
-
 prOptions:
   merge: auto
   mergeStrategy: squash
@@ -24,6 +22,7 @@ repos:
       .eslintrc.json: false
       .hadolint.yaml: false
     settings:
+      repo: false
       rulesets:
         inherit: false
 
@@ -33,6 +32,7 @@ repos:
         createOnly: true
       .eslintrc.json: false
     settings:
+      repo: false
       rulesets:
         inherit: false
 
@@ -48,6 +48,7 @@ repos:
     prOptions:
       merge: direct
     settings:
+      repo: false
       rulesets:
         inherit: false
 
@@ -58,6 +59,11 @@ repos:
   #    .github/renovate/base.json5:
   #      content:
   #        ignorePaths: ["talos/helmfile"]
+  #  settings:
+  #    repo:
+  #
+  #    rulesets:
+  #      inherit: false
 
   #- git: https://github.com/anthony-spruyt/SunGather.git
 
@@ -213,6 +219,32 @@ files:
 
 settings:
   deleteOrphaned: true
+  repo:
+    allowAutoMerge: true
+    allowForking: true
+    allowMergeCommit: false
+    allowRebaseMerge: false
+    allowSquashMerge: true
+    allowUpdateBranch: true
+    archived: false
+    automatedSecurityFixes: false
+    defaultBranch: main
+    deleteBranchOnMerge: true
+    hasDiscussions: false
+    hasIssues: true
+    hasProjects: false
+    hasWiki: false
+    isTemplate: false
+    mergeCommitMessage: PR_TITLE
+    mergeCommitTitle: MERGE_MESSAGE
+    privateVulnerabilityReporting: true
+    secretScanning: true
+    secretScanningPushProtection: true
+    squashMergeCommitMessage: COMMIT_MESSAGES
+    squashMergeCommitTitle: COMMIT_OR_PR_TITLE
+    visibility: public
+    vulnerabilityAlerts: true
+    webCommitSignoffRequired: true
   rulesets:
     pr-rules:
       bypassActors: []
