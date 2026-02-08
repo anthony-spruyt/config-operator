@@ -243,7 +243,7 @@ settings:
     squashMergeCommitMessage: COMMIT_MESSAGES
     squashMergeCommitTitle: COMMIT_OR_PR_TITLE
     visibility: public
-    vulnerabilityAlerts: true
+    vulnerabilityAlerts: false
     webCommitSignoffRequired: true
   rulesets:
     pr-rules:
