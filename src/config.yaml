@@ -94,6 +94,8 @@ repos:
               - vuln
               - secret
     settings:
+      repo:
+        hasDiscussions: true
       rulesets:
         pr-rules:
           bypassActors:
