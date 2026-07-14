@@ -158,7 +158,7 @@ repos:
           features:
             "ghcr.io/devcontainers-extra/features/sops":
               # renovate: datasource=github-releases depName=getsops/sops
-              version: "3.13.1"
+              version: "3.13.2"
             "ghcr.io/eitsupi/devcontainer-features/jq-likes":
               # renovate: datasource=github-releases depName=jqlang/jq
               jqVersion: "1.8.1"
