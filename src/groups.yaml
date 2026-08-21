@@ -95,7 +95,7 @@ groups:
           features:
             "ghcr.io/devcontainers/features/go":
               # renovate: datasource=golang-version depName=go
-              version: "1.26.6"
+              version: "1.27.0"
           customizations:
             vscode:
               extensions:
@@ -316,7 +316,7 @@ groups:
           features:
             "ghcr.io/devcontainers/features/terraform":
               # renovate: datasource=github-releases depName=hashicorp/terraform
-              version: "1.15.8"
+              version: "1.15.9"
           mounts:
             $arrayMerge: append
             $values:
@@ -335,7 +335,7 @@ groups:
               # NOTE: files pattern assumes infra/terraform/ directory structure - override per-repo if needed
               - repo: https://github.com/antonbabenko/pre-commit-terraform
                 # renovate: depName=antonbabenko/pre-commit-terraform datasource=github-tags
-                rev: v1.108.1
+                rev: v1.109.0
                 hooks:
                   - id: terraform_fmt
                     files: "^(infra/terraform|coder)/"
