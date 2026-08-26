@@ -43,6 +43,38 @@
       datasourceTemplate: "{{#if datasource}}{{{datasource}}}{{else}}github-tags{{/if}}",
       versioningTemplate: "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}"
     },
+    // YAML: kustomize images entry, where the tag and digest are separate keys.
+    // The "Annotated Docker image" managers below cannot match this shape, since
+    // they expect "repo:tag@digest" in a single quoted string, so without these
+    // the generic "Annotated YAML field" managers claim the newTag line and leave
+    // the digest unmanaged — the transformer then emits a fresh tag against a
+    // stale digest, and the digest is what the runtime actually resolves.
+    //
+    // The annotation sits above the "- name:" line rather than above "newTag:".
+    // That placement is load-bearing: the generic managers require a "key: value"
+    // line directly beneath the comment, and "- name:" is not one, so they cannot
+    // match a kustomize entry. Renovate compiles these with RE2, which has no
+    // lookahead, so anchoring on the list item is how the overlap is avoided.
+    {
+      customType: "regex",
+      description: ["Annotated kustomize images entry (depName first)."],
+      managerFilePatterns: ["/\\.ya?ml$/"],
+      matchStrings: [
+        "#\\s*renovate:\\s*depName=(?<depName>\\S+)\\s+datasource=docker\\n\\s*-\\s*name:\\s*\\S+\\n\\s*newTag:\\s*\"?(?<currentValue>[^\"\\s]+)\"?(?:\\n\\s*digest:\\s*\"?(?<currentDigest>sha256:[a-f0-9]{64})\"?)?"
+      ],
+      datasourceTemplate: "docker",
+      versioningTemplate: "docker"
+    },
+    {
+      customType: "regex",
+      description: ["Annotated kustomize images entry (datasource first)."],
+      managerFilePatterns: ["/\\.ya?ml$/"],
+      matchStrings: [
+        "#\\s*renovate:\\s*datasource=docker\\s+depName=(?<depName>\\S+)\\n\\s*-\\s*name:\\s*\\S+\\n\\s*newTag:\\s*\"?(?<currentValue>[^\"\\s]+)\"?(?:\\n\\s*digest:\\s*\"?(?<currentDigest>sha256:[a-f0-9]{64})\"?)?"
+      ],
+      datasourceTemplate: "docker",
+      versioningTemplate: "docker"
+    },
     // Dockerfile: ARG VAR="version"
     {
       customType: "regex",
