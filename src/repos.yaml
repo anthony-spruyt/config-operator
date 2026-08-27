@@ -246,6 +246,14 @@ repos:
     settings:
       repo:
         allowAutoMerge: false
+      rulesets:
+        branch-signatures:
+          conditions:
+            refName:
+              include:
+                - "refs/heads/**"
+              exclude:
+                - "refs/heads/release-please--**"
       labels:
         alert:
           color: "#e11d48"
