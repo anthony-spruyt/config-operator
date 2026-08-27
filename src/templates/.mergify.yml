@@ -8,6 +8,17 @@ queue_rules:
       - -draft
       - "check-success = summary / Check Results"
 
+  # Release pull requests are opened by release-please with GITHUB_TOKEN, which
+  # by design does not trigger other workflows, so they never receive the CI
+  # summary check. They also touch nothing but CHANGELOG.md and the release
+  # manifest, so neither a review nor a build gate applies.
+  - name: release-please
+    merge_method: squash
+    batch_size: 1
+    max_checks_retries: 3
+    merge_conditions:
+      - -draft
+
 priority_rules:
   - name: revert PRs
     conditions:
@@ -39,6 +50,28 @@ pull_request_rules:
     actions:
       queue: {}
 
+  # Only applies in repositories that have adopted release-please; elsewhere no
+  # pull request carries the label and the rule never matches.
+  #
+  # This rule merges without a review, so every condition below is load bearing.
+  # The label alone is not a credential: anyone with triage access can apply it.
+  # Merging additionally requires that the pull request was opened by the Actions
+  # bot (only a workflow in this repository can author as it), that it came from
+  # a release-please branch, and that it edits the release manifest. A human or
+  # a different bot cannot satisfy the author condition at all.
+  - name: auto-merge release-please PRs
+    conditions:
+      - "label=autorelease: pending"
+      - author = github-actions[bot]
+      - "head~=^release-please--branches--"
+      - "files~=^\\.release-please-manifest\\.json$"
+      - -label = blocked
+      - -draft
+      - -merged
+    actions:
+      queue:
+        name: release-please
+
   - name: emergency merge (break glass)
     conditions:
       - label = emergency/merge
@@ -67,8 +100,22 @@ merge_protections:
       - base = main
       - -label = agent/revert
       - -label = emergency/merge
+      - "-label=autorelease: pending"
     success_conditions:
       - "#approved-reviews-by >= 1"
+
+  # Mirrors the auto-merge conditions above. Without this the default protection
+  # would demand a review on release pull requests and the merge protection check
+  # would never pass; with it, a pull request carrying the label but failing the
+  # author or branch checks fails this protection instead of falling through.
+  - name: release-please
+    if:
+      - base = main
+      - "label=autorelease: pending"
+    success_conditions:
+      - author = github-actions[bot]
+      - "head~=^release-please--branches--"
+      - "files~=^\\.release-please-manifest\\.json$"
 
   - name: revert-approved
     if:
