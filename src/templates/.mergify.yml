@@ -8,10 +8,9 @@ queue_rules:
     max_checks_retries: 3
     merge_conditions:
       - -draft
+      - "check-success = summary / Check Results"
       - or:
-          - and:
-              - "#approved-reviews-by >= 1"
-              - "check-success = summary / Check Results"
+          - "#approved-reviews-by >= 1"
           - and:
               - "label=autorelease: pending"
               - author = repo-operator-release-bot[bot]
