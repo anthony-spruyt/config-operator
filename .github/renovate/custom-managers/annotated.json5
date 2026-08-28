@@ -22,14 +22,7 @@
       datasourceTemplate: "{{#if datasource}}{{{datasource}}}{{else}}github-releases{{/if}}",
       versioningTemplate: "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}"
     },
-    // YAML: version/key field
-    //
-    // The space after the colon is required, not cosmetic. With "\\s*" these
-    // matched a bare URL on the following line, reading "https:" as the key and
-    // capturing "//github.com/.../v1.5.1/file.yaml" as the version — an
-    // unparseable dep that raises no PR and no warning. YAML block mappings
-    // always put a space after the colon, so requiring one costs nothing and
-    // keeps URLs out. See the release-URL managers below, which own that shape.
+    // YAML: version/key field. The space after the colon keeps bare URLs out.
     {
       customType: "regex",
       description: ["Annotated YAML field (depName first)."],
@@ -50,19 +43,8 @@
       datasourceTemplate: "{{#if datasource}}{{{datasource}}}{{else}}github-tags{{/if}}",
       versioningTemplate: "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}"
     },
-    // YAML: release download URL inside a shell command.
-    //
-    // Covers "# renovate:" above a wget/curl line in a block scalar, where the
-    // version lives in the URL path and there is no "key: value" for the
-    // generic YAML managers to anchor on.
-    //
-    // currentValue deliberately excludes any leading "v", and
-    // extractVersionTemplate strips the same prefix off the datasource results
-    // so the two forms compare. That is what lets one dep drive a URL carrying
-    // the version twice in different shapes, as GitHub release assets usually
-    // do: ".../download/v1.1.0/thing-1.1.0.tar.gz". Rewriting both occurrences
-    // needs autoReplaceGlobalMatch, which is a top-level option and so is set
-    // by the consuming repo, not here.
+    // YAML: release download URL in a shell command. currentValue drops the
+    // leading "v" so one dep can drive a URL carrying the version twice.
     {
       customType: "regex",
       description: ["Annotated release URL in a shell command (depName first)."],

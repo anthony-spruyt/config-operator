@@ -116,9 +116,6 @@
       },
     },
     {
-      // The github-tags entry is the Flux GitRepository that owns the CRDs.
-      // It carries the same tag as the controller image and must move with it,
-      // or the controller writes fields the installed schema does not have.
       description: "Snapshot Controller components (image and CRD source share a tag)",
       groupName: "Snapshot Controller",
       matchPackageNames: [
@@ -133,8 +130,6 @@
       },
     },
     {
-      // Same shape as Snapshot Controller: the GitRepository that owns the CRDs
-      // is tagged identically to the controller image.
       description: "CSI Addons controller and CRD source (share a tag)",
       groupName: "CSI Addons",
       matchPackageNames: [
