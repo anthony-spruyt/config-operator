@@ -22,6 +22,8 @@ groups:
         content: "@templates/.claude/rules/research.md"
       .claude/rules/github.md:
         content: "@templates/.claude/rules/github.md"
+      .claude/rules/comments.md:
+        content: "@templates/.claude/rules/comments.md"
       .claude/settings.json:
         content: "@templates/.claude/settings.json"
       .claude/statusline.sh:
