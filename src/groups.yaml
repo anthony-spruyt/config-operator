@@ -16,16 +16,16 @@ groups:
         content: "@templates/biome.json"
   claude:
     files:
-      .claude/rules/tdd.md:
-        content: "@templates/.claude/rules/tdd.md"
-      .claude/rules/research.md:
-        content: "@templates/.claude/rules/research.md"
-      .claude/rules/github.md:
-        content: "@templates/.claude/rules/github.md"
-      .claude/rules/comments.md:
-        content: "@templates/.claude/rules/comments.md"
       .claude/output-styles/eli5.md:
         content: "@templates/.claude/output-styles/eli5.md"
+      .claude/rules/comments.md:
+        content: "@templates/.claude/rules/comments.md"
+      .claude/rules/github.md:
+        content: "@templates/.claude/rules/github.md"
+      .claude/rules/research.md:
+        content: "@templates/.claude/rules/research.md"
+      .claude/rules/tdd.md:
+        content: "@templates/.claude/rules/tdd.md"
       .claude/settings.json:
         content: "@templates/.claude/settings.json"
       .claude/statusline.sh:
