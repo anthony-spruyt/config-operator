@@ -121,6 +121,7 @@
       matchPackageNames: [
         "snapshot-controller",
         "registry.k8s.io/sig-storage/snapshot-controller",
+        "registry.k8s.io/sig-storage/csi-snapshotter",
         "kubernetes-csi/external-snapshotter"
       ],
       matchDatasources: ["helm", "docker", "github-tags"],
@@ -134,6 +135,7 @@
       groupName: "CSI Addons",
       matchPackageNames: [
         "quay.io/csiaddons/k8s-controller",
+        "quay.io/csiaddons/k8s-sidecar",
         "csi-addons/kubernetes-csi-addons"
       ],
       matchDatasources: ["docker", "github-tags"],
