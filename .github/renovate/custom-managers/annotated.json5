@@ -67,6 +67,31 @@
       versioningTemplate: "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}",
       extractVersionTemplate: "^v?(?<version>.+)$"
     },
+    // YAML: raw.githubusercontent.com URL, where the ref sits between the repo
+    // and the file path. The "release URL" managers above only anchor on
+    // "/releases/download/", and the "YAML field" managers require a "key: value"
+    // line, so neither can reach a bare "- https://raw.githubusercontent.com/..."
+    // list item such as a Talos extraManifests entry.
+    {
+      customType: "regex",
+      description: ["Annotated raw.githubusercontent.com ref (depName first)."],
+      managerFilePatterns: ["/\\.ya?ml$/"],
+      matchStrings: [
+        "#\\s*renovate:\\s*depName=(?<depName>\\S+)\\s+datasource=(?<datasource>\\S+)(?:\\s+versioning=(?<versioning>\\S+))?\\n[^\\n]*raw\\.githubusercontent\\.com/[^/\\s]+/[^/\\s]+/(?<currentValue>[^/\\s]+)/[^\\n]*"
+      ],
+      datasourceTemplate: "{{#if datasource}}{{{datasource}}}{{else}}github-tags{{/if}}",
+      versioningTemplate: "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}"
+    },
+    {
+      customType: "regex",
+      description: ["Annotated raw.githubusercontent.com ref (datasource first)."],
+      managerFilePatterns: ["/\\.ya?ml$/"],
+      matchStrings: [
+        "#\\s*renovate:\\s*datasource=(?<datasource>\\S+)\\s+depName=(?<depName>\\S+)(?:\\s+versioning=(?<versioning>\\S+))?\\n[^\\n]*raw\\.githubusercontent\\.com/[^/\\s]+/[^/\\s]+/(?<currentValue>[^/\\s]+)/[^\\n]*"
+      ],
+      datasourceTemplate: "{{#if datasource}}{{{datasource}}}{{else}}github-tags{{/if}}",
+      versioningTemplate: "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}"
+    },
     // YAML: kustomize images entry, where the tag and digest are separate keys.
     // The "Annotated Docker image" managers below cannot match this shape, since
     // they expect "repo:tag@digest" in a single quoted string, so without these

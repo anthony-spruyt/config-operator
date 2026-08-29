@@ -145,6 +145,19 @@
       },
     },
     {
+      // The chart and the seed carry different version strings - chart 0.11.0
+      // ships appVersion 1.7.1 - so this cannot be a "share a tag" group. It
+      // exists so both land in one PR and the seed cannot silently go stale.
+      description: "Vertical Pod Autoscaler chart and the Talos bootstrap CRD seed it owns",
+      groupName: "Vertical Pod Autoscaler",
+      matchPackageNames: ["vertical-pod-autoscaler", "kubernetes/autoscaler"],
+      matchDatasources: ["helm", "github-tags"],
+      group: {
+        commitMessageTopic: "{{{groupName}}} group",
+        branchTopic: "{{{groupName}}}-{{{newVersion}}}"
+      }
+    },
+    {
       description: "BJW-S App Template",
       groupName: "App Template",
       matchPackageNames: ["ghcr.io/bjw-s-labs/helm/app-template"],
