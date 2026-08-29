@@ -24,6 +24,8 @@ groups:
         content: "@templates/.claude/rules/github.md"
       .claude/rules/comments.md:
         content: "@templates/.claude/rules/comments.md"
+      .claude/output-styles/eli5.md:
+        content: "@templates/.claude/output-styles/eli5.md"
       .claude/settings.json:
         content: "@templates/.claude/settings.json"
       .claude/statusline.sh:
