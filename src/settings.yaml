@@ -6,18 +6,6 @@ settings:
     state: configured
     querySuite: extended
   labels:
-    "autorelease: pending":
-      color: "#ededed"
-      description: ""
-    "autorelease: snapshot":
-      color: "#ededed"
-      description: ""
-    "autorelease: snooze":
-      color: "#ededed"
-      description: ""
-    "autorelease: tagged":
-      color: "#ededed"
-      description: ""
     blocked:
       color: "#B60205"
       description: "Blocked from merging"
