@@ -145,10 +145,7 @@
       },
     },
     {
-      // The chart and the seed carry different version strings - chart 0.11.0
-      // ships appVersion 1.7.1 - so this cannot be a "share a tag" group. It
-      // exists so both land in one PR and the seed cannot silently go stale.
-      description: "Vertical Pod Autoscaler chart and the Talos bootstrap CRD seed it owns",
+      description: "Vertical Pod Autoscaler chart and Talos CRD seed (versions differ, grouped for visibility)",
       groupName: "Vertical Pod Autoscaler",
       matchPackageNames: ["vertical-pod-autoscaler", "kubernetes/autoscaler"],
       matchDatasources: ["helm", "github-tags"],
