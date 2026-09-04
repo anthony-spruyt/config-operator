@@ -185,15 +185,31 @@
       }
     },
     {
-      description: "Kubernetes and Talos (core versions, installer, kubelet, kubectl sidecars, Go client libs, talosctl)",
-      groupName: "Kubernetes/Talos",
+      // Members render newVersion differently (github-releases "1.14.0", docker
+      // and go "v1.14.0") and the docker tag often lags the GitHub release, so
+      // a versioned branchTopic fans one upgrade out into several PRs. Omit it
+      // here: one rolling branch collects whatever the members currently offer.
+      description: "Talos OS (release, installer image, machinery Go client)",
+      groupName: "Talos",
+      matchPackageNames: [
+        "siderolabs/talos",
+        "ghcr.io/siderolabs/installer",
+        "github.com/siderolabs/talos/pkg/machinery"
+      ],
+      matchDatasources: ["docker", "github-releases", "go"],
+      group: {
+        commitMessageTopic: "{{{groupName}}} group",
+        branchTopic: "{{{groupName}}}"
+      }
+    },
+    {
+      // Same rolling-branch reasoning as the Talos group above.
+      description: "Kubernetes (core version, kubelet, kubectl sidecars, Go client libs)",
+      groupName: "Kubernetes",
       matchPackageNames: [
         "kubernetes",
         "kubernetes/kubernetes",
-        "siderolabs/talos",
-        "ghcr.io/siderolabs/installer",
         "ghcr.io/siderolabs/kubelet",
-        "github.com/siderolabs/talos/pkg/machinery",
         "bitnami/kubectl",
         "public.ecr.aws/bitnami/kubectl",
         "alpine/k8s",
@@ -204,7 +220,7 @@
       matchDatasources: ["docker", "github-releases", "go"],
       group: {
         commitMessageTopic: "{{{groupName}}} group",
-        branchTopic: "{{{groupName}}}-{{{newVersion}}}"
+        branchTopic: "{{{groupName}}}"
       }
     }
   ]
