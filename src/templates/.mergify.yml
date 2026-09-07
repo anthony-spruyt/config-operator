@@ -1,3 +1,9 @@
+merge_queue:
+  # This repo pushes sync commits to main on a schedule. The default behaviour
+  # discards every in-flight speculative check when that happens, so a run of
+  # queued PRs can restart indefinitely and never drain.
+  reset_on_external_merge: never
+
 queue_rules:
   # auto_merge_conditions queues via merge protections, which always uses this
   # queue, so the release-please exception has to live here rather than in a
